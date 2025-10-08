@@ -1,20 +1,20 @@
 #include <iostream>
 using namespace std;
 
-int sumN(int n)
+int factN(int n)
 {
     // int n;
     // cout << "Enter your number: ";
     // cin >> n;
-    int sum = 0;
+    int fact = 1;
     for (int i = 1; i <= n; i++)
     {
-        sum += i;
+        fact *= i;
     };
-    cout << "Sum from 1 to given number is: " << sum << endl;
+    cout << "Factotial from 1 to given number is: " << fact << endl;
 };
 int main()
 {
-    sumN(3);
+    factN(6);
     return 0;
 };
