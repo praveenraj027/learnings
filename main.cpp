@@ -1,15 +1,20 @@
 #include <iostream>
 using namespace std;
 
-int sum(int a, int b)
+int sumN(int n)
 {
-    int sum = a + b;
-    cout << sum << endl;
-    return sum;
+    // int n;
+    // cout << "Enter your number: ";
+    // cin >> n;
+    int sum = 0;
+    for (int i = 1; i <= n; i++)
+    {
+        sum += i;
+    };
+    cout << "Sum from 1 to given number is: " << sum << endl;
 };
 int main()
 {
-    sum(2, 3);
-
+    sumN(3);
     return 0;
 };
