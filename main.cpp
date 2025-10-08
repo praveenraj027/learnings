@@ -1,45 +1,15 @@
 #include <iostream>
 using namespace std;
 
+int sum(int a, int b)
+{
+    int sum = a + b;
+    cout << sum << endl;
+    return sum;
+};
 int main()
 {
-    int n = 5;
-    // char ch = 'A';
-    for (int i = 1; i <= n; i++)
-    {
-        for (int j = 1; j <= n - i; j++)
-        {
-            cout << " ";
-        }
-        cout << "*";
-        if (i != 1)
-        {
-            for (int j = 1; j <= 2 * i - 2; j++)
-            {
-                cout << " ";
-            }
-            cout << "*";
-        }
+    sum(2, 3);
 
-        cout << endl;
-    }
-    for (int i = 1; i <= n - 1; i++)
-    {
-        for (int j = 1; j <= i; j++)
-        {
-            cout << " ";
-        }
-        cout << "*";
-        if (i != n - 1)
-        {
-            for (int j = 1; j <= 2*(n-i) - 2 ; j++)
-            {
-                cout << " ";
-            }
-            cout << "*";
-        }
-
-        cout << endl;
-    }
     return 0;
 };
