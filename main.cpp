@@ -3,21 +3,17 @@ using namespace std;
 
 int main()
 {
-    int n = 100;
-    for (int num = 2; num <= n; num++)
+    int n = 10;
+    long long a = 0, b = 1, nextTerm;
+    if (n == 1){cout << 0 << endl; return 0;};
+    if (n == 2){cout << 1 << endl; return 0;};
+
+    for (int i = 3; i <= n; i++)
     {
-        bool isPrime = true;
-        for (int i = 2; i * i <= num; i++)
-        {
-            if (num % i == 0)
-            {
-                isPrime = false;
-            }
-        };
-        if (isPrime)
-        {
-            cout << num << endl;
-        };
-    };
+        nextTerm = a + b;
+        a = b;
+        b = nextTerm;
+    }
+    cout << b << endl;
     return 0;
 };
