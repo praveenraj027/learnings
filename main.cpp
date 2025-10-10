@@ -1,23 +1,23 @@
 #include <iostream>
 using namespace std;
 
-int factorial(int n)
-{
-    int fact = 1;
-    for (int i = 1; i <= n; i++)
-    {
-        fact *= i;
-    }
-    return fact;
-};
 int main()
 {
-    int n = 8, r = 2;
-    int fact_n = factorial(n);
-    int fact_r = factorial(r);
-    int fact_nr = factorial(n - r);
-
-    int nCr = fact_n / (fact_r * fact_nr);
-    cout << "Value of nCr is: " << nCr << endl;
+    int n = 100;
+    for (int num = 2; num <= n; num++)
+    {
+        bool isPrime = true;
+        for (int i = 2; i * i <= num; i++)
+        {
+            if (num % i == 0)
+            {
+                isPrime = false;
+            }
+        };
+        if (isPrime)
+        {
+            cout << num << endl;
+        };
+    };
     return 0;
 };
