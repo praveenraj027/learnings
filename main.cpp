@@ -1,41 +1,37 @@
 #include <iostream>
 using namespace std;
 
-int minOfArray(int array[], int size)
+void intersectionOfArray(int array1[], int array2[], int size1, int size2)
 {
-    int min = array[0];
-    for (int i = 1; i < size; i++)
+    for (int i = 0; i < size1; i++)
     {
-        if (array[i] < min)
+        for (int j = 0; j < size2; j++)
         {
-            min = array[i];
+            if (array1[i] == array2[j])
+            {
+                bool alreadyPrinted = false;
+                for (int k = 0; k < i; k++)
+                {
+                    if (array1[k] == array1[i])
+                    {
+                        alreadyPrinted = true;
+                        break;
+                    }
+                }
+                if (!alreadyPrinted)
+                {
+                    cout << array1[i] << " ";
+                }
+            }
         }
     }
-    return min;
-};
-int maxOfArray(int array[], int size)
-{
-    int max = array[0];
-    for (int i = 1; i < size; i++)
-    {
-        if (array[i] > max)
-        {
-            max = array[i];
-        }
-    }
-    return max;
-};
+}
 
 int main()
 {
-    int array[5] = {1, 2, 3, 4, 10};
-    int size = sizeof(array) / sizeof(int);
-    int minVal = minOfArray(array, size);
-    int maxVal = maxOfArray(array, size);
-    int temp = minVal;
-    minVal = maxVal;
-    maxVal = temp;
-    cout << "Minimum number is: " << minVal << endl;
-    cout << "Maximum number is: " << maxVal;
-
+    int array1[6] = {1, 2, 3, 4, 2, 2};
+    int size1 = sizeof(array1) / sizeof(int);
+    int array2[6] = {1, 23, 5, 4, 2, 6};
+    int size2 = sizeof(array2) / sizeof(int);
+    intersectionOfArray(array1, array2, size1, size2);
 };
