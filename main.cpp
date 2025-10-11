@@ -11,7 +11,7 @@ void reverseArray(int array[], int size)
         array[end] = temp;
         start++;
         end--;
-    }
+    };
 };
 
 int main()
