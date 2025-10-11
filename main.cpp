@@ -3,14 +3,13 @@ using namespace std;
 
 int main()
 {
-    int n = 14512;
-    int rem, revNum = 0;
-    while (n > 0)
-    {
-        rem = n % 10;
-        revNum = revNum * 10 + rem;
-        n = n / 10;
+int array[5] = {12, 45, 2, 45, -3};
+int min = array[0];
+int size = sizeof(array) / sizeof(int);
+for (int i = 1; i <= size; i++){
+    if(array[i] < min){
+        min = array[i];
     }
-    cout << revNum;
-    return 0;
+}
+cout << min <<endl;
 };
