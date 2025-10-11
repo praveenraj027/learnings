@@ -6,7 +6,9 @@ void reverseArray(int array[], int size)
     int start = 0, end = size - 1;
     while (start < end)
     {
-        swap(array[start], array[end]);
+        int temp = array[start];
+        array[start] = array[end];
+        array[end] = temp;
         start++;
         end--;
     }
