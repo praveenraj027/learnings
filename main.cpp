@@ -1,20 +1,20 @@
 #include <iostream>
 using namespace std;
 
-int sumOfArray(int array[], int size)
+int productOfArray(int array[], int size)
 {
-    int sum = 0;
+    int product = 1;
     for (int i = 0; i < size; i++)
     {
-        sum += array[i];
+        product *= array[i];
     }
-    cout << sum;
+    cout << product;
 };
 
 int main()
 {
     int array[5] = {1, 2, 3, 4, 10};
     int size = sizeof(array) / sizeof(int);
-    sumOfArray(array, size);
+    productOfArray(array, size);
     cout << endl;
 };
