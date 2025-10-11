@@ -1,15 +1,25 @@
 #include <iostream>
 using namespace std;
 
+void reverseArray(int array[], int size)
+{
+    int start = 0, end = size - 1;
+    while (start < end)
+    {
+        swap(array[start], array[end]);
+        start++;
+        end--;
+    }
+};
+
 int main()
 {
-int array[5] = {12, 45, -92, 525, -3};
-int min = 0;
-int size = sizeof(array) / sizeof(int);
-for (int i = 1; i <= size; i++){
-    if(array[i] < array[min]){
-        min = i;
+    int array[5] = {1, 2, 3, 4, 5};
+    int size = sizeof(array) / sizeof(int);
+    reverseArray(array, size);
+    for (int i = 0; i < size; i++)
+    {
+        cout << array[i] << " ";
     }
-}
-cout << min <<endl;
+    cout << endl;
 };
