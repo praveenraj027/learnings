@@ -4,7 +4,7 @@ using namespace std;
 
 int main()
 {
-    int arr[5] = {1, 2, 2, 2, 5};
+    int arr[5] = {1, 1, 2, 2, 2};
     int n = sizeof(arr) / sizeof(int);
     int freq = 0, ans = 0;
     for (int i = 0; i < n; i++)
@@ -22,23 +22,5 @@ int main()
             freq--;
         }
     }
-    int count = 0;
-    for (int i = 0; i < n; i++)
-    {
-        if (ans == arr[i])
-        {
-            count++;
-        }
-    }
-
-    if (count > n / 2)
-    {
-        cout << ans << endl;
-    }
-    else
-    {
-        cout << "There is no majority element in the array" << endl;
-    }
-
-    // cout << ans << endl;
+    cout << ans << endl;
 };
