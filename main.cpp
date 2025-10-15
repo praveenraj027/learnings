@@ -4,18 +4,41 @@ using namespace std;
 
 int main()
 {
-    int arr[5] = {1, 2, 3, 4, 5};
-    int size = sizeof(arr) / sizeof(int);
-    for (int st = 0; st < size; st++)
+    int arr[5] = {1, 2, 2, 2, 5};
+    int n = sizeof(arr) / sizeof(int);
+    int freq = 0, ans = 0;
+    for (int i = 0; i < n; i++)
     {
-        for (int end = st; end < size; end++)
+        if (freq == 0)
         {
-            for (int i = st; i <= end; i++)
-            {
-                cout << arr[i];
-            }
-            cout << " ";
+            ans = arr[i];
         }
-        cout << endl;
+        if (ans == arr[i])
+        {
+            freq++;
+        }
+        else
+        {
+            freq--;
+        }
     }
+    int count = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (ans == arr[i])
+        {
+            count++;
+        }
+    }
+
+    if (count > n / 2)
+    {
+        cout << ans << endl;
+    }
+    else
+    {
+        cout << "There is no majority element in the array" << endl;
+    }
+
+    // cout << ans << endl;
 };
