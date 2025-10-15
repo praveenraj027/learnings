@@ -4,23 +4,22 @@ using namespace std;
 
 int main()
 {
-    int arr[5] = {1, 1, 2, 2, 2};
-    int n = sizeof(arr) / sizeof(int);
-    int freq = 0, ans = 0;
+    vector<int> vec = {1, 1, 1, 4, 5};
+    int n = vec.size();
+    int freq = 0;
     for (int i = 0; i < n; i++)
     {
-        if (freq == 0)
+        for (int j = 0; j < n; j++)
         {
-            ans = arr[i];
+            if (vec[i] == vec[j])
+            {
+                freq++;
+            }
         }
-        if (ans == arr[i])
+        if (freq > n / 2)
         {
-            freq++;
-        }
-        else
-        {
-            freq--;
+            cout << vec[i];
+            break;
         }
     }
-    cout << ans << endl;
 };
