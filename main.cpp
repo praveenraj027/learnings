@@ -4,18 +4,18 @@ using namespace std;
 
 int main()
 {
-    int arr[9] = {1, 8, 6, 2, 5, 4, 8, 3, 7};
-    int n = sizeof(arr) / sizeof(int);
+    int height[9] = {1, 8, 6, 2, 5, 4, 8, 3, 7};
+    int n = sizeof(height) / sizeof(int);
     int maxWater = 0;
-    for (int i = 0; i < n; i++)
+    int lp = 0, rp = n - 1;
+    while (lp < rp)
     {
-        for (int j = i + 1; j < n; j++)
-        {
-            int width = j - i;
-            int height = min(arr[i], arr[j]);
-            int area = width * height;
-            maxWater = max(maxWater, area);
-        }
+        int w = rp - lp;
+        int h = min(height[lp], height[rp]);
+        int area = w * h;
+        maxWater = max(area, maxWater);
+
+        height[lp] < height[rp] ? lp++ : rp--;
     }
     cout << maxWater;
 };
