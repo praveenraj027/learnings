@@ -4,15 +4,18 @@ using namespace std;
 
 int main()
 {
-    int arr[6] = {7, 1, 5, 1, 2, 6};
-    int size = sizeof(arr) / sizeof(int);
-    int maxProfit = 0, bestBuy = arr[0];
-    for (int i = 1; i < size; i++){
-        if (arr[i] > bestBuy){
-            maxProfit = max(maxProfit, arr[i] - bestBuy);
+    int arr[9] = {1, 8, 6, 2, 5, 4, 8, 3, 7};
+    int n = sizeof(arr) / sizeof(int);
+    int maxWater = 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+            int width = j - i;
+            int height = min(arr[i], arr[j]);
+            int area = width * height;
+            maxWater = max(maxWater, area);
         }
-        bestBuy = min(bestBuy, arr[i]);
     }
-
-    cout << maxProfit;
+    cout << maxWater;
 };
