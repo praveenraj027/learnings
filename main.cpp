@@ -4,34 +4,44 @@ using namespace std;
 
 int main()
 {
-   vector<int> arr1 = {-1, 0, 5, 6, 9, 74};
-   int tar1 = 90;
-   vector<int> arr2 = {1, 2, 4, 6, 89};
-   int tar2 = 89;
-   int n = arr2.size();
-
+   vector<int> arr = {4, 5, 6, 7, 0, 1, 2, 3};
+   int target = 2;
+   int n = arr.size();
    int st = 0, end = n - 1;
    bool found = false;
    while (st <= end)
    {
-      int mid = (st + end) / 2;
-      if (tar2 > arr2[mid])
+      int mid = st + (end - st) / 2;
+      if (arr[mid] == target)
       {
-         st = mid + 1;
+         cout << mid << endl;
+         found = true;
       }
-      else if (tar2 < arr2[mid])
+      if (arr[st] <= arr[mid])
       {
-         end = mid - 1;
+         if (arr[st] <= target && target <= arr[mid])
+         {
+            end = mid - 1;
+         }
+         else
+         {
+            st = mid + 1;
+         }
       }
       else
       {
-         cout << arr2[mid];
-         found = true;
-         break;
+         if (arr[mid] <= target && target <= arr[end])
+         {
+            st = mid + 1;
+         }
+         else
+         {
+            end = mid - 1;
+         }
       }
    }
-   if (!found)
-   {
-      cout << "Element not found!" << endl;
+
+   if (!found){
+      cout << "Element doesn't exist." << endl;
    }
 };
