@@ -4,43 +4,27 @@ using namespace std;
 
 int main()
 {
-   vector<int> arr = {4, 5, 6, 7, 0, 1, 2, 3};
-   int target = 2;
-   int n = arr.size();
-   int st = 0, end = n - 1;
+   vector<int> arr = {1, 2, 1};
+   int st = 1, end = arr.size() - 2;
    bool found = false;
    while (st <= end)
    {
       int mid = st + (end - st) / 2;
-      if (arr[mid] == target)
+      if (arr[mid - 1] < arr[mid] && arr[mid] > arr[mid + 1])
       {
-         cout << mid << endl;
+         cout << "Peak element in array is: " << arr[mid];
          found = true;
+         break;
       }
-      if (arr[st] <= arr[mid])
+      else if (arr[mid - 1] < arr[mid])
       {
-         if (arr[st] <= target && target <= arr[mid])
-         {
-            end = mid - 1;
-         }
-         else
-         {
-            st = mid + 1;
-         }
+         st = mid + 1;
       }
       else
       {
-         if (arr[mid] <= target && target <= arr[end])
-         {
-            st = mid + 1;
-         }
-         else
-         {
-            end = mid - 1;
-         }
+         end = mid - 1;
       }
    }
-
    if (!found){
       cout << "Element doesn't exist." << endl;
    }
