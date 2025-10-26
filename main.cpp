@@ -4,28 +4,38 @@ using namespace std;
 
 int main()
 {
-   vector<int> arr = {1, 2, 1};
+   vector<int> arr = {1, 1, 2, 2, 3, 4, 4, 5, 5};
    int st = 1, end = arr.size() - 2;
    bool found = false;
    while (st <= end)
    {
       int mid = st + (end - st) / 2;
-      if (arr[mid - 1] < arr[mid] && arr[mid] > arr[mid + 1])
+      if (arr[mid - 1] != arr[mid] && arr[mid] != arr[mid + 1])
       {
-         cout << "Peak index of element in array is: " << mid;
-         found = true;
+         cout << arr[mid];
          break;
       }
-      else if (arr[mid - 1] < arr[mid])
+      if (mid % 2 == 0)
       {
-         st = mid + 1;
+         if (arr[mid - 1] = arr[mid])
+         {
+            end = mid - 1;
+         }
+         else
+         {
+            st = mid + 1;
+         }
       }
       else
       {
-         end = mid - 1;
+         if (arr[mid - 1] = arr[mid])
+         {
+            st = mid + 1;
+         }
+         else
+         {
+            end = mid - 1;
+         }
       }
-   }
-   if (!found){
-      cout << "Element doesn't exist." << endl;
    }
 };
