@@ -12,7 +12,7 @@ int main()
       int mid = st + (end - st) / 2;
       if (arr[mid - 1] < arr[mid] && arr[mid] > arr[mid + 1])
       {
-         cout << "Peak element in array is: " << arr[mid];
+         cout << "Peak index of element in array is: " << mid;
          found = true;
          break;
       }
