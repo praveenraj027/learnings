@@ -1,56 +1,43 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
-bool isValid(vector<int> &arr, int n, int m, int maxTime)
+bool isPossible(vector<int> arr, int n, int m, int minAllowedDist)
 {
-   int painter = 1, time = 0;
-   for (int i = 0; i < n; i++)
-   {
-      if (arr[i] > maxTime)
-      {
-         return false;
-      }
-      if (time + arr[i] <= maxTime)
-      {
-         time += arr[i];
-      }
-      else
-      {
-         painter++;
-         time = arr[i];
-      }
-   }
-
-   return painter > m ? false : true;
-}
-
-int painterPartition(vector<int> &arr, int n, int m)
-{
-   int sum = 0;
-   int max = 0;
+   int cows = 1, lastPosition = arr[0];
    for (int i = 0; i < arr.size(); i++)
    {
-      sum += arr[i];
-      if (arr[i] > max)
+      if (arr[i] - lastPosition >= minAllowedDist)
       {
-         max = arr[i];
+         cows++;
+         lastPosition = arr[i];
+      }
+      if (cows == m)
+      {
+         return true;
       }
    }
-   int st = max, end = sum;
-   int ans = -1;
+   return false;
+}
+
+int aggressiveCows(vector<int> arr, int n, int m)
+{
+   sort(arr.begin(), arr.end());
+   int min = arr[0], max = arr[arr.size() - 1];
+   int st = 1, end = max - min, ans = -1;
 
    while (st <= end)
    {
       int mid = st + (end - st) / 2;
-      if (isValid(arr, n, m, mid))
+      if (isPossible(arr, n, m, mid))
       {
          ans = mid;
-         end = mid - 1;
+         st = mid + 1;
       }
       else
       {
-         st = mid + 1;
+         end = mid - 1;
       }
    }
    return ans;
@@ -58,12 +45,8 @@ int painterPartition(vector<int> &arr, int n, int m)
 
 int main()
 {
-   vector<int> arr = {5, 10, 5, 20};
+   vector<int> arr = {1, 2, 4, 8, 9};
    int n = arr.size(), m = 2;
-   if (m > n)
-   {
-      cout << "It is not possible." << endl;
-      return 0;
-   }
-   cout << painterPartition(arr, n, m) << endl;
+
+   cout << aggressiveCows(arr, n, m) << endl;
 };
