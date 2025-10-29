@@ -2,37 +2,42 @@
 #include <vector>
 using namespace std;
 
-bool isValid(vector<int> &arr, int n, int m, int maxAllowedPages)
+bool isValid(vector<int> &arr, int n, int m, int maxTime)
 {
-   int stu = 1, pages = 0;
+   int painter = 1, time = 0;
    for (int i = 0; i < n; i++)
    {
-      if (arr[i] > maxAllowedPages)
+      if (arr[i] > maxTime)
       {
          return false;
       }
-      if (pages + arr[i] <= maxAllowedPages)
+      if (time + arr[i] <= maxTime)
       {
-         pages += arr[i];
+         time += arr[i];
       }
       else
       {
-         stu++;
-         pages = arr[i];
+         painter++;
+         time = arr[i];
       }
    }
 
-   return stu > m ? false : true;
+   return painter > m ? false : true;
 }
 
-int allocateBooks(vector<int> &arr, int n, int m)
+int painterPartition(vector<int> &arr, int n, int m)
 {
    int sum = 0;
+   int max = 0;
    for (int i = 0; i < arr.size(); i++)
    {
       sum += arr[i];
+      if (arr[i] > max)
+      {
+         max = arr[i];
+      }
    }
-   int st = 0, end = sum;
+   int st = max, end = sum;
    int ans = -1;
 
    while (st <= end)
@@ -53,7 +58,12 @@ int allocateBooks(vector<int> &arr, int n, int m)
 
 int main()
 {
-   vector<int> arr = {2, 1, 3, 4};
-   int n = 4, m = 2;
-   cout << allocateBooks(arr, n, m) << endl;
+   vector<int> arr = {5, 10, 5, 20};
+   int n = arr.size(), m = 2;
+   if (m > n)
+   {
+      cout << "It is not possible." << endl;
+      return 0;
+   }
+   cout << painterPartition(arr, n, m) << endl;
 };
