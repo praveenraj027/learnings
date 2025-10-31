@@ -2,17 +2,19 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-vector<int> bubbleSort(vector<int> arr, int n)
+vector<int> selectionSort(vector<int> arr, int n)
 {
    for (int i = 0; i < n - 1; i++)
    {
-      for (int j = 0; j < n - i - 1; j++)
+      int smallest = i;
+      for (int j = i + 1; j < n; j++)
       {
-         if (arr[j] > arr[j + 1])
+         if (arr[j] < arr[smallest])
          {
-            swap(arr[j], arr[j + 1]);
+            smallest = j;
          }
       }
+      swap(arr[i], arr[smallest]);
    }
    return arr;
 }
@@ -26,8 +28,8 @@ void printArr(vector<int> arr, int n)
 
 int main()
 {
-   vector<int> arr = {1, 2, 4, 8, 9};
+   vector<int> arr = {9, 8, 2, 1, 3};
    int n = arr.size();
-   bubbleSort(arr, n);
+   arr = selectionSort(arr, n);
    printArr(arr, n);
 };
