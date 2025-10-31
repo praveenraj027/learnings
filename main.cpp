@@ -2,7 +2,7 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-vector<int> selectionSort(vector<int> arr, int n)
+vector<int> selectionSort(vector<int> &arr, int n)
 {
    for (int i = 0; i < n - 1; i++)
    {
@@ -28,8 +28,8 @@ void printArr(vector<int> arr, int n)
 
 int main()
 {
-   vector<int> arr = {9, 8, 2, 1, 3};
+   vector<int> arr = {7, 8, 2, 1, 3};
    int n = arr.size();
-   arr = selectionSort(arr, n);
+   selectionSort(arr, n);
    printArr(arr, n);
 };
