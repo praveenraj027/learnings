@@ -2,51 +2,32 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-
-bool isPossible(vector<int> arr, int n, int m, int minAllowedDist)
+vector<int> bubbleSort(vector<int> arr, int n)
 {
-   int cows = 1, lastPosition = arr[0];
-   for (int i = 0; i < arr.size(); i++)
+   for (int i = 0; i < n - 1; i++)
    {
-      if (arr[i] - lastPosition >= minAllowedDist)
+      for (int j = 0; j < n - i - 1; j++)
       {
-         cows++;
-         lastPosition = arr[i];
-      }
-      if (cows == m)
-      {
-         return true;
+         if (arr[j] > arr[j + 1])
+         {
+            swap(arr[j], arr[j + 1]);
+         }
       }
    }
-   return false;
+   return arr;
 }
-
-int aggressiveCows(vector<int> arr, int n, int m)
+void printArr(vector<int> arr, int n)
 {
-   sort(arr.begin(), arr.end());
-   int min = arr[0], max = arr[arr.size() - 1];
-   int st = 1, end = max - min, ans = -1;
-
-   while (st <= end)
+   for (int i = 0; i < n; i++)
    {
-      int mid = st + (end - st) / 2;
-      if (isPossible(arr, n, m, mid))
-      {
-         ans = mid;
-         st = mid + 1;
-      }
-      else
-      {
-         end = mid - 1;
-      }
+      cout << arr[i] << " ";
    }
-   return ans;
 }
 
 int main()
 {
    vector<int> arr = {1, 2, 4, 8, 9};
-   int n = arr.size(), m = 2;
-
-   cout << aggressiveCows(arr, n, m) << endl;
+   int n = arr.size();
+   bubbleSort(arr, n);
+   printArr(arr, n);
 };
