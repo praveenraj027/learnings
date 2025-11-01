@@ -17,6 +17,36 @@ vector<int> insertionSort(vector<int> &arr, int n)
    }
    return arr;
 }
+vector<int> selectionSort(vector<int> &arr, int n)
+{
+   for (int i = 0; i < n - 1; i++)
+   {
+      int smallest = i;
+      for (int j = i + 1; j < n; j++)
+      {
+         if (arr[j] < arr[smallest])
+         {
+            smallest = j;
+         }
+      }
+      swap(arr[i], arr[smallest]);
+   }
+   return arr;
+}
+vector<int> bubbleSort(vector<int> &arr, int n)
+{
+   for (int i = 0; i < n - 1; i++)
+   {
+      for (int j = 0; j < n - i - 1; j++)
+      {
+         if (arr[j] > arr[j + 1])
+         {
+            swap(arr[j], arr[j + 1]);
+         }
+      }
+   }
+   return arr;
+}
 void printArr(vector<int> arr, int n)
 {
    for (int i = 0; i < n; i++)
@@ -29,6 +59,6 @@ int main()
 {
    vector<int> arr = {7, 8, 2, 1, 3};
    int n = arr.size();
-   insertionSort(arr, n);
+   selectionSort(arr, n);
    printArr(arr, n);
 };
