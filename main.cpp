@@ -2,19 +2,18 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-vector<int> selectionSort(vector<int> &arr, int n)
+vector<int> insertionSort(vector<int> &arr, int n)
 {
-   for (int i = 0; i < n - 1; i++)
+   for (int i = 1; i < n; i++)
    {
-      int smallest = i;
-      for (int j = i + 1; j < n; j++)
+      int curr = arr[i];
+      int prev = i - 1;
+      while (prev >= 0 && arr[prev] > curr)
       {
-         if (arr[j] < arr[smallest])
-         {
-            smallest = j;
-         }
+         arr[prev + 1] = arr[prev];
+         prev--;
       }
-      swap(arr[i], arr[smallest]);
+      arr[prev + 1] = curr;
    }
    return arr;
 }
@@ -30,6 +29,6 @@ int main()
 {
    vector<int> arr = {7, 8, 2, 1, 3};
    int n = arr.size();
-   selectionSort(arr, n);
+   insertionSort(arr, n);
    printArr(arr, n);
 };
