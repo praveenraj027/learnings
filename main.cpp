@@ -2,28 +2,31 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-vector<int> DNFalgo(vector<int> &arr, int n)
+vector<int> merge(vector<int> &arr1, int m, vector<int> &arr2, int n)
 {
-   int mid = 0, low = 0, high = arr.size() - 1;
-   while (high >= mid)
+   int index = m + n - 1, i = m - 1, j = n - 1;
+   while (i >= 0 && j >= 0)
    {
-      if (arr[mid] == 0)
+      if (arr1[i] > arr2[j])
       {
-         swap(arr[mid], arr[low]);
-         low++;
-         mid++;
-      }
-      else if (arr[mid] == 1)
-      {
-         mid++;
+         arr1[index] = arr1[i];
+         index--;
+         i--;
       }
       else
       {
-         swap(arr[mid], arr[high]);
-         high--;
+         arr1[index] = arr2[j];
+         index--;
+         j--;
       }
    }
-   return arr;
+   while (j >= 0)
+   {
+      arr1[index] = arr2[j];
+      index--;
+      j--;
+   }
+   return arr1;
 }
 void printArr(vector<int> arr, int n)
 {
@@ -35,8 +38,10 @@ void printArr(vector<int> arr, int n)
 
 int main()
 {
-   vector<int> arr = {0, 2, 1, 2, 1, 0, 1};
-   int n = arr.size();
-   DNFalgo(arr, n);
-   printArr(arr, n);
+   vector<int> arr1 = {1, 2, 3, 0, 0, 0};
+   int m = 3;
+   vector<int> arr2 = {2, 4, 5};
+   int n = arr2.size();
+   merge(arr1, m, arr2, n);
+   printArr(arr1, m + n);
 };
