@@ -2,18 +2,26 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-vector<int> insertionSort(vector<int> &arr, int n)
+vector<int> DNFalgo(vector<int> &arr, int n)
 {
-   for (int i = 1; i < n; i++)
+   int mid = 0, low = 0, high = arr.size() - 1;
+   while (high >= mid)
    {
-      int curr = arr[i];
-      int prev = i - 1;
-      while (prev >= 0 && arr[prev] > curr)
+      if (arr[mid] == 0)
       {
-         arr[prev + 1] = arr[prev];
-         prev--;
+         swap(arr[mid], arr[low]);
+         low++;
+         mid++;
       }
-      arr[prev + 1] = curr;
+      else if (arr[mid] == 1)
+      {
+         mid++;
+      }
+      else
+      {
+         swap(arr[mid], arr[high]);
+         high--;
+      }
    }
    return arr;
 }
@@ -29,6 +37,6 @@ int main()
 {
    vector<int> arr = {0, 2, 1, 2, 1, 0, 1};
    int n = arr.size();
-   insertionSort(arr, n);
+   DNFalgo(arr, n);
    printArr(arr, n);
 };
