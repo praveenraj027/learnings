@@ -2,31 +2,40 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-vector<int> merge(vector<int> &arr1, int m, vector<int> &arr2, int n)
+vector<int> nextPermutation(vector<int> &arr, int n)
 {
-   int index = m + n - 1, i = m - 1, j = n - 1;
-   while (i >= 0 && j >= 0)
+   int pivot = -1;
+   for (int i = n - 2; i >= 0; i--)
    {
-      if (arr1[i] > arr2[j])
+      if (arr[i] < arr[i + 1])
       {
-         arr1[index] = arr1[i];
-         index--;
-         i--;
-      }
-      else
-      {
-         arr1[index] = arr2[j];
-         index--;
-         j--;
+         pivot = i;
+         break;
       }
    }
-   while (j >= 0)
+   if (pivot == -1)
    {
-      arr1[index] = arr2[j];
-      index--;
+      reverse(arr.begin(), arr.end());
+      return arr;
+   }
+
+   for (int i = n - 1; i > pivot; i--)
+   {
+      if (arr[i] > arr[pivot])
+      {
+         swap(arr[i], arr[pivot]);
+         break;
+      }
+   }
+
+   int i = pivot + 1, j = n - 1;
+   while (i <= j)
+   {
+      swap(arr[i], arr[j]);
+      i++;
       j--;
    }
-   return arr1;
+   return arr;
 }
 void printArr(vector<int> arr, int n)
 {
@@ -38,10 +47,8 @@ void printArr(vector<int> arr, int n)
 
 int main()
 {
-   vector<int> arr1 = {1, 2, 3, 0, 0, 0};
-   int m = 3;
-   vector<int> arr2 = {2, 4, 5};
-   int n = arr2.size();
-   merge(arr1, m, arr2, n);
-   printArr(arr1, m + n);
+   vector<int> arr = {1, 2, 5, 4, 6};
+   int n = arr.size();
+   nextPermutation(arr, n);
+   printArr(arr, n);
 };
