@@ -6,7 +6,12 @@ using namespace std;
 
 int main()
 {
-   string str = "Piya";
-   reverse(str.begin(), str.end());
-   cout << str << endl;
+   bool isPalindrome = false;
+   string str = "naman";
+   string reversedStr(str.rbegin(), str.rend());
+   if (str == reversedStr)
+   {
+      isPalindrome = true;
+   }
+   cout << "The string is " << (isPalindrome ? "Palindrome" : "not a Palindrome");
 };
