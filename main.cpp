@@ -2,48 +2,17 @@
 #include <string>
 #include <algorithm>
 using namespace std;
-bool isAlphaNumeric(char ch)
+string removeAllOccurrences(string s, string part)
 {
-    if ((ch >= '0' && ch <= '9') || (tolower(ch) >= 'a' && tolower(ch) <= 'z'))
+    while (s.length() > 0 && s.find(part) < s.length())
     {
-        return true;
+        s.erase(s.find(part), part.length());
     }
-    return false;
-}
-
-bool isPalindrome(string str)
-{
-    int st = 0, end = str.length() - 1;
-    while (st < end)
-    {
-        if (!isAlphaNumeric(str[st]))
-        {
-            st++;
-            continue;
-        }
-        if (!isAlphaNumeric(str[end]))
-        {
-            end--;
-            continue;
-        }
-        if (tolower(str[st]) != tolower(str[end]))
-        {
-            return false;
-        }
-        st++;
-        end--;
-    }
-    return true;
+    cout << s << endl;
 }
 int main()
 {
-    string s = "A man, a plan, a canal: Panama";
-    if (isPalindrome(s))
-    {
-        cout << "True" << endl;
-    }
-    else
-    {
-        cout << "False" << endl;
-    }
+    string str = "baabcbabc";
+    string part = "ab";
+    removeAllOccurrences(str, part);
 }
