@@ -1,17 +1,49 @@
 #include <iostream>
-#include <vector>
-#include <cstring>
+#include <string>
 #include <algorithm>
 using namespace std;
+bool isAlphaNumeric(char ch)
+{
+    if ((ch >= '0' && ch <= '9') || (tolower(ch) >= 'a' && tolower(ch) <= 'z'))
+    {
+        return true;
+    }
+    return false;
+}
 
+bool isPalindrome(string str)
+{
+    int st = 0, end = str.length() - 1;
+    while (st < end)
+    {
+        if (!isAlphaNumeric(str[st]))
+        {
+            st++;
+            continue;
+        }
+        if (!isAlphaNumeric(str[end]))
+        {
+            end--;
+            continue;
+        }
+        if (tolower(str[st]) != tolower(str[end]))
+        {
+            return false;
+        }
+        st++;
+        end--;
+    }
+    return true;
+}
 int main()
 {
-   bool isPalindrome = false;
-   string str = "naman";
-   string reversedStr(str.rbegin(), str.rend());
-   if (str == reversedStr)
-   {
-      isPalindrome = true;
-   }
-   cout << "The string is " << (isPalindrome ? "Palindrome" : "not a Palindrome");
-};
+    string s = "A man, a plan, a canal: Panama";
+    if (isPalindrome(s))
+    {
+        cout << "True" << endl;
+    }
+    else
+    {
+        cout << "False" << endl;
+    }
+}
