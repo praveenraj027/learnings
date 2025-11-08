@@ -17,7 +17,7 @@ bool isFreqSame(int freq1[], int freq2[])
 
 int main()
 {
-    string s1 = "ab", s2 = "eidboaoo";
+    string s1 = "ab", s2 = "eidbaoo";
 
     int freq[26] = {0};
     for (int i = 0; i < s1.length(); i++)
