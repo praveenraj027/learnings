@@ -18,13 +18,8 @@ int main()
             count++;
             i++;
         }
-        if (count == 1)
-        {
-            chars[idx++] = ch;
-        }
-        else
-        {
-            chars[idx++] = ch;
+        chars[idx++] = ch;
+        if (count > 1) {
             string str = to_string(count);
             for (int dig : str)
             {
