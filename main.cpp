@@ -1,29 +1,42 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <algorithm>
 using namespace std;
 
 int main()
 {
-    string s = " hello world ";
-    int n = s.length();
-    string ans = "";
-    reverse(s.begin(), s.end());
-
+    vector<char> chars = {'a', 'a', 'b', 'b', 'b', 'c', 'c', 'c', 'd'};
+    int n = chars.size();
+    int idx = 0;
     for (int i = 0; i < n; i++)
     {
-        string word = "";
-        while (i < n && s[i] != ' ')
+        char ch = chars[i];
+        int count = 0;
+        while (i < n && chars[i] == ch)
         {
-            word += s[i];
+            count++;
             i++;
         }
-        reverse(word.begin(), word.end());
-        if (word.length() > 0)
+        if (count == 1)
         {
-            ans += " " + word;
+            chars[idx++] = ch;
         }
+        else
+        {
+            chars[idx++] = ch;
+            string str = to_string(count);
+            for (int dig : str)
+            {
+                chars[idx++] = dig;
+            }
+        }
+        i--;
     }
-
-    cout << ans.substr(1) << endl;
+    chars.resize(idx);
+    cout << idx << endl;
+    for (int i = 0; i < idx; i++)
+    {
+        cout << chars[i] << " ";
+    }
 }
