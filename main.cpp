@@ -2,17 +2,23 @@
 #include <string>
 #include <algorithm>
 using namespace std;
-string removeAllOccurrences(string s, string part)
-{
-    while (s.length() > 0 && s.find(part) < s.length())
-    {
-        s.erase(s.find(part), part.length());
-    }
-    cout << s << endl;
-}
+
 int main()
 {
-    string str = "baabcbabc";
-    string part = "ab";
-    removeAllOccurrences(str, part);
+    string s = "abcdefghij";
+    int k = 3;
+    int st = 0, end = s.length() - 1;
+    while (st < end)
+    {
+        int start = st;
+        int e = min(start + k - 1, end);
+        while (start < e)
+        {
+            swap(s[start], s[e]);
+            start++;
+            e--;
+        }
+        st += 2*k;
+    }
+    cout << s << endl;
 }
