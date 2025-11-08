@@ -3,44 +3,27 @@
 #include <algorithm>
 using namespace std;
 
-bool isFreqSame(int freq1[], int freq2[])
-{
-    for (int i = 0; i < 26; i++)
-    {
-        if (freq1[i] != freq2[i])
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
 int main()
 {
-    string s1 = "ab", s2 = "eidbaoo";
+    string s = " hello world ";
+    int n = s.length();
+    string ans = "";
+    reverse(s.begin(), s.end());
 
-    int freq[26] = {0};
-    for (int i = 0; i < s1.length(); i++)
+    for (int i = 0; i < n; i++)
     {
-        freq[s1[i] - 'a']++;
-    }
-
-    int windSize = s1.length();
-    for (int i = 0; i < s2.length(); i++)
-    {
-        int windIdx = 0, idx = i;
-        int windFreq[26] = {0};
-        while (windIdx < windSize && idx < s2.length())
+        string word = "";
+        while (i < n && s[i] != ' ')
         {
-            windFreq[s2[idx] - 'a']++;
-            windIdx++;
-            idx++;
+            word += s[i];
+            i++;
         }
-        if (isFreqSame(freq, windFreq))
+        reverse(word.begin(), word.end());
+        if (word.length() > 0)
         {
-            cout << "True" << endl;
-            return 0;
+            ans += " " + word;
         }
     }
-    cout << "False" << endl;
+
+    cout << ans.substr(1) << endl;
 }
