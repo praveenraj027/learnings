@@ -6,32 +6,21 @@ using namespace std;
 
 int main()
 {
-    vector<char> chars = {'a', 'a', 'b', 'b', 'b', 'c', 'c', 'c', 'd'};
-    int n = chars.size();
-    int idx = 0;
-    for (int i = 0; i < n; i++)
+    int n = 10;
+    vector<bool> isPrime(n + 1, true);
+    int count = 0;
+
+    for (int i = 2; i < n; i++)
     {
-        char ch = chars[i];
-        int count = 0;
-        while (i < n && chars[i] == ch)
+        if (isPrime[i])
         {
             count++;
-            i++;
-        }
-        chars[idx++] = ch;
-        if (count > 1) {
-            string str = to_string(count);
-            for (int dig : str)
+            for (int j = i * 2; j < n; j = j + i)
             {
-                chars[idx++] = dig;
+                isPrime[j] = false;
             }
         }
-        i--;
     }
-    chars.resize(idx);
-    cout << idx << endl;
-    for (int i = 0; i < idx; i++)
-    {
-        cout << chars[i] << " ";
-    }
+
+    cout << count << endl;
 }
