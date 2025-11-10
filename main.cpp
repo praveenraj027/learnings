@@ -10,25 +10,26 @@ int gcd(int a, int b)
     {
         if (a > b)
         {
-            a =  a % b;
+            a = a % b;
         }
-        else 
+        else
         {
             b = b % a;
         }
     }
-    if (a == 0) {
-        cout << b << endl;
-    }
-    else 
+    if (a == 0)
     {
-        cout << a << endl;
+        return b;
     }
-
+    else
+    {
+        return a;
+    }
 }
 
 int main()
 {
     int a = 20, b = 28;
-    gcd(a, b);
+    int lcm = (a * b) / gcd(a, b);
+    cout << lcm << endl;
 }
