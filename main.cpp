@@ -4,18 +4,19 @@
 #include <algorithm>
 using namespace std;
 
+void printDigits(int n)
+{
+    while (n != 0)
+    {
+        int digits = n % 10;
+
+        cout << digits << endl;
+        n = n / 10;
+    }
+}
+
 int main()
 {
-    char target = 'b';
-    vector<char> chars = {'a', 'a', 'b', 'b', 'b', 'c', 'c', 'c', 'd'};
-    for (int i = 0; i < chars.size(); i++){
-        if (chars[i] == target){
-            chars.erase(chars.begin() + i);
-        }
-    }
-    for (char ch : chars)
-    {
-        cout << ch << " ";
-    }
-    
+    int n = 3215;
+    printDigits(n);
 }
