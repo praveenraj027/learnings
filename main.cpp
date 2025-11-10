@@ -4,19 +4,31 @@
 #include <algorithm>
 using namespace std;
 
-void printDigits(int n)
+int gcd(int a, int b)
 {
-    while (n != 0)
+    while (a > 0 && b > 0)
     {
-        int digits = n % 10;
-
-        cout << digits << endl;
-        n = n / 10;
+        if (a > b)
+        {
+            a =  a % b;
+        }
+        else 
+        {
+            b = b % a;
+        }
     }
+    if (a == 0) {
+        cout << b << endl;
+    }
+    else 
+    {
+        cout << a << endl;
+    }
+
 }
 
 int main()
 {
-    int n = 3215;
-    printDigits(n);
+    int a = 20, b = 28;
+    gcd(a, b);
 }
