@@ -4,21 +4,21 @@
 #include <algorithm>
 using namespace std;
 
-bool gcd(int a, int b)
+int reverseNum(int n)
 {
-    int gcd = 1;
-    for (int i = 1; i <= min(a, b); i++)
+    int revNum = 0;
+    while (n != 0)
     {
-        if (a % i == 0 && b % i == 0)
-        {
-            gcd = i;
-        }
+        int digits = n % 10;
+        revNum = (revNum * 10) + digits;
+
+        n = n / 10;
     }
-    cout << gcd << endl;
+    cout << revNum << endl;
 }
 
 int main()
 {
-    int a = 20, b = 28;
-    gcd(a, b);
+    int n = 5423;
+    reverseNum(n);
 }
