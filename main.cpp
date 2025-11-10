@@ -7,6 +7,7 @@ using namespace std;
 int reverseNum(int n)
 {
     int revNum = 0;
+    int temp = n;
     while (n != 0)
     {
         int digits = n % 10;
@@ -14,11 +15,18 @@ int reverseNum(int n)
 
         n = n / 10;
     }
-    cout << revNum << endl;
+    if (revNum == temp)
+    {
+        cout << "Palindrome Number" << endl;
+    }
+    else
+    {
+        cout << "Not a Palindrome Number" << endl;
+    }
 }
 
 int main()
 {
-    int n = 5423;
+    int n = 323;
     reverseNum(n);
 }
