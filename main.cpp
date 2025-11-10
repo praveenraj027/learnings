@@ -4,32 +4,21 @@
 #include <algorithm>
 using namespace std;
 
-int gcd(int a, int b)
+bool gcd(int a, int b)
 {
-    while (a > 0 && b > 0)
+    int gcd = 1;
+    for (int i = 1; i <= min(a, b); i++)
     {
-        if (a > b)
+        if (a % i == 0 && b % i == 0)
         {
-            a = a % b;
-        }
-        else
-        {
-            b = b % a;
+            gcd = i;
         }
     }
-    if (a == 0)
-    {
-        return b;
-    }
-    else
-    {
-        return a;
-    }
+    cout << gcd << endl;
 }
 
 int main()
 {
     int a = 20, b = 28;
-    int lcm = (a * b) / gcd(a, b);
-    cout << lcm << endl;
+    gcd(a, b);
 }
