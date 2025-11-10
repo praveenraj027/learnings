@@ -6,21 +6,16 @@ using namespace std;
 
 int main()
 {
-    int n = 10;
-    vector<bool> isPrime(n + 1, true);
-    int count = 0;
-
-    for (int i = 2; i < n; i++)
-    {
-        if (isPrime[i])
-        {
-            count++;
-            for (int j = i * 2; j < n; j = j + i)
-            {
-                isPrime[j] = false;
-            }
+    char target = 'b';
+    vector<char> chars = {'a', 'a', 'b', 'b', 'b', 'c', 'c', 'c', 'd'};
+    for (int i = 0; i < chars.size(); i++){
+        if (chars[i] == target){
+            chars.erase(chars.begin() + i);
         }
     }
-
-    cout << count << endl;
+    for (char ch : chars)
+    {
+        cout << ch << " ";
+    }
+    
 }
