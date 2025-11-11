@@ -4,26 +4,26 @@
 #include <algorithm>
 using namespace std;
 
-int linear2D(int matrix[][3], int rows, int columns)
+int maxColSum(int matrix[][3], int rows, int columns)
 {
-    int maxRowSum = 0;
-    for (int i = 0; i < rows; i++)
+    int maxColSum = 0;
+    for (int i = 0; i < columns; i++)
     {
-        int rowSum = 0;
-        for (int j = 0; j < columns; j++)
+        int colSum = 0;
+        for (int j = 0; j < rows; j++)
         {
-            rowSum += matrix[i][j];
+            colSum += matrix[j][i];
         }
-        maxRowSum = max(rowSum, maxRowSum);
+        maxColSum = max(colSum, maxColSum);
     }
 
-    cout << maxRowSum << endl;
+    cout << maxColSum << endl;
 }
 
 int main()
 {
-    int matrix[4][3] = {{1, 2, 31}, {4, 5, 6}, {7, 8, 9}, {10, 11, 12}};
+    int matrix[4][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {10, 11, 12}};
     int rows = 4;
     int columns = 3;
-    linear2D(matrix, rows, columns);
+    maxColSum(matrix, rows, columns);
 }
