@@ -4,26 +4,29 @@
 #include <algorithm>
 using namespace std;
 
-int maxColSum(int matrix[][3], int rows, int columns)
+int diagonalSum(int matrix[][3], int n)
 {
-    int maxColSum = 0;
-    for (int i = 0; i < columns; i++)
+    int sum = 0;
+    for (int i = 0; i < n; i++)
     {
-        int colSum = 0;
-        for (int j = 0; j < rows; j++)
+        for (int j = 0; j < n; j++)
         {
-            colSum += matrix[j][i];
+            if (i == j)
+            {
+                sum += matrix[i][j];
+            }
+            else if (j == n - 1 - i)
+            {
+                sum += matrix[i][j];
+            }
         }
-        maxColSum = max(colSum, maxColSum);
     }
-
-    cout << maxColSum << endl;
+    cout << sum << endl;
 }
 
 int main()
 {
-    int matrix[4][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {10, 11, 12}};
-    int rows = 4;
-    int columns = 3;
-    maxColSum(matrix, rows, columns);
+    int matrix[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    int n = 3;
+    diagonalSum(matrix, n);
 }
