@@ -4,29 +4,10 @@
 #include <algorithm>
 using namespace std;
 
-int reverseNum(int n)
-{
-    int revNum = 0;
-    int temp = n;
-    while (n != 0)
-    {
-        int digits = n % 10;
-        revNum = (revNum * 10) + digits;
-
-        n = n / 10;
-    }
-    if (revNum == temp)
-    {
-        cout << "Palindrome Number" << endl;
-    }
-    else
-    {
-        cout << "Not a Palindrome Number" << endl;
-    }
-}
-
 int main()
 {
-    int n = 323;
-    reverseNum(n);
+    int matrix[4][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {10, 11, 12}};
+    int rows = 4;
+    int columns = 3;
+    cout << matrix[3][2] << endl;
 }
