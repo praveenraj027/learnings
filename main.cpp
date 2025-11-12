@@ -1,26 +1,69 @@
-    #include <iostream>
-    #include <string>
-    #include <vector>
-    #include <algorithm>
-    using namespace std;
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
 
-    int diagonalSum(int matrix[][3], int n)
+// Search in a 2D Matrix
+
+bool searchInRow(vector<vector<int>> matrix, int target, int row)
+{
+    int n = matrix[0].size();
+    int st = 0, end = n - 1;
+    while (st <= end)
     {
-        int sum = 0;
-        for (int i = 0; i < n; i++)
+        int mid = st + (end - st) / 2;
+        if (matrix[row][mid] == target)
         {
-            sum += matrix[i][i];
-            if (i != n - 1 - i)
-            {
-                sum += matrix[i][n - 1 - i];
-            }
+            return true;
         }
-        return sum;
+        else if (matrix[row][mid] <= target)
+        {
+            st = mid + 1;
+        }
+        else
+        {
+            end = mid - 1;
+        }
     }
+    return false;
+}
 
-    int main()
+bool searchIn2D(vector<vector<int>> matrix, int target)
+{
+    int m = matrix.size(), n = matrix[0].size();
+    int startRow = 0, endRow = m - 1;
+
+    while (startRow <= endRow)
     {
-        int matrix[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-        int n = 3;
-        cout << diagonalSum(matrix, n) << endl;
+        int midRow = startRow + (endRow - startRow) / 2;
+        if (matrix[midRow][0] <= target && target <= matrix[midRow][n - 1])
+        {
+            // Binary Search in row
+            return searchInRow(matrix, target, midRow);
+        }
+        else if (target >= matrix[midRow][n - 1])
+        {
+            startRow = midRow + 1;
+        }
+        else
+        {
+            endRow = midRow - 1;
+        }
     }
+    return false;
+}
+
+int main()
+{
+    vector<vector<int>> matrix = {{1, 2, 3}, {4, 5, 6}, {8, 9, 10}};
+    int target = 50;
+    if (searchIn2D(matrix, target))
+    {
+        cout << "Target found" << endl;
+    }
+    else
+    {
+        cout << "Target doesn't exist" << endl;
+    };
+}
