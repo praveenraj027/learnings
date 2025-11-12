@@ -4,51 +4,25 @@
 #include <algorithm>
 using namespace std;
 
-// Search in a 2D Matrix
-
-bool searchInRow(vector<vector<int>> matrix, int target, int row)
-{
-    int n = matrix[0].size();
-    int st = 0, end = n - 1;
-    while (st <= end)
-    {
-        int mid = st + (end - st) / 2;
-        if (matrix[row][mid] == target)
-        {
-            return true;
-        }
-        else if (matrix[row][mid] <= target)
-        {
-            st = mid + 1;
-        }
-        else
-        {
-            end = mid - 1;
-        }
-    }
-    return false;
-}
+// Search in a 2D Matrix II
 
 bool searchIn2D(vector<vector<int>> matrix, int target)
 {
     int m = matrix.size(), n = matrix[0].size();
-    int startRow = 0, endRow = m - 1;
-
-    while (startRow <= endRow)
+    int r = 0, c = n - 1;
+    while (c >= 0 && r < m)
     {
-        int midRow = startRow + (endRow - startRow) / 2;
-        if (matrix[midRow][0] <= target && target <= matrix[midRow][n - 1])
+        if (target == matrix[r][c])
         {
-            // Binary Search in row
-            return searchInRow(matrix, target, midRow);
+            return true;
         }
-        else if (target >= matrix[midRow][n - 1])
+        else if (target <= matrix[r][c])
         {
-            startRow = midRow + 1;
+            c--;
         }
         else
         {
-            endRow = midRow - 1;
+            r++;
         }
     }
     return false;
@@ -56,8 +30,8 @@ bool searchIn2D(vector<vector<int>> matrix, int target)
 
 int main()
 {
-    vector<vector<int>> matrix = {{1, 2, 3}, {4, 5, 6}, {8, 9, 10}};
-    int target = 50;
+    vector<vector<int>> matrix = {{1, 4, 7}, {2, 5, 8}, {3, 6, 9}};
+    int target = 8;
     if (searchIn2D(matrix, target))
     {
         cout << "Target found" << endl;
