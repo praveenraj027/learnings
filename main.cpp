@@ -4,40 +4,62 @@
 #include <algorithm>
 using namespace std;
 
-// Search in a 2D Matrix II
+// Spiral Matrix
 
-bool searchIn2D(vector<vector<int>> matrix, int target)
+vector<int> spiralMatrix(vector<vector<int>> &matrix)
 {
     int m = matrix.size(), n = matrix[0].size();
-    int r = 0, c = n - 1;
-    while (c >= 0 && r < m)
+    int srow = 0, scol = 0, erow = m - 1, ecol = n - 1;
+    vector<int> ans;
+
+    while (srow <= erow && scol <= ecol)
     {
-        if (target == matrix[r][c])
+        // top
+
+        for (int j = scol; j <= ecol; j++)
         {
-            return true;
+            ans.push_back(matrix[srow][j]);
         }
-        else if (target <= matrix[r][c])
+        // right
+
+        for (int i = srow + 1; i <= erow; i++)
         {
-            c--;
+            ans.push_back(matrix[i][ecol]);
         }
-        else
+        // bottom
+
+        for (int j = ecol - 1; j >= srow; j--)
         {
-            r++;
+            if (srow == erow)
+            {
+                break;
+            }
+            ans.push_back(matrix[erow][j]);
         }
+        // left
+
+        for (int i = erow - 1; i >= srow + 1; i--)
+        {
+            if (scol == ecol)
+            {
+                break;
+            }
+            ans.push_back(matrix[i][scol]);
+        }
+        srow++;
+        scol++;
+        ecol--;
+        erow--;
     }
-    return false;
+    return ans;
 }
 
 int main()
 {
-    vector<vector<int>> matrix = {{1, 4, 7}, {2, 5, 8}, {3, 6, 9}};
-    int target = 8;
-    if (searchIn2D(matrix, target))
+    vector<vector<int>> matrix = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    vector<int> result = spiralMatrix(matrix);
+    for (int val : result)
     {
-        cout << "Target found" << endl;
+        cout << val << " ";
     }
-    else
-    {
-        cout << "Target doesn't exist" << endl;
-    };
 }
