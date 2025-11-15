@@ -3,41 +3,24 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-// Find missing and number in matrix
+// Find Duplicate
 
-vector<int> findRepeatedAndMissing(vector<vector<int>> grid)
+int findDuplicate(vector<int> nums)
 {
-    int n = grid.size();
-    vector<int> ans;
     unordered_set<int> s;
-    int a, b;
-    int actualSum = 0, expectedSum = 0;
-
-    for (int i = 0; i < n; i++)
+    for (int val : nums)
     {
-        for (int j = 0; j < n; j++)
+        if (s.find(val) != s.end())
         {
-            actualSum += grid[i][j];
-            if (s.find(grid[i][j]) != s.end())
-            {
-                a = grid[i][j];
-                ans.push_back(a);
-            }
-            s.insert(grid[i][j]);
+            cout << val;
+            return 0;
         }
+        s.insert(val);
     }
-
-    expectedSum = (n * n) * (n * n + 1) / 2;
-    b = expectedSum + a - actualSum;
-    ans.push_back(b);
-    return ans;
+    return -1;
 }
 int main()
 {
-    vector<vector<int>> grid = {{1, 3, 4}, {2, 5, 8}, {7, 7, 9}};
-    vector<int> ans = findRepeatedAndMissing(grid);
-    for (int val : ans)
-    {
-        cout << val << " ";
-    }
+    vector<int> arr = {1, 2, 2, 3, 4, 5};
+    findDuplicate(arr);
 }
