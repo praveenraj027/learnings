@@ -1,64 +1,42 @@
 #include <iostream>
-#include <string>
+#include <unordered_set>
 #include <vector>
 #include <algorithm>
 using namespace std;
+// Find missing and number in matrix
 
-// Spiral Matrix
-
-vector<int> spiralMatrix(vector<vector<int>> &matrix)
+vector<int> findRepeatedAndMissing(vector<vector<int>> grid)
 {
-    int m = matrix.size(), n = matrix[0].size();
-    int srow = 0, scol = 0, erow = m - 1, ecol = n - 1;
+    int n = grid.size();
     vector<int> ans;
+    unordered_set<int> s;
+    int a, b;
+    int actualSum = 0, expectedSum = 0;
 
-    while (srow <= erow && scol <= ecol)
+    for (int i = 0; i < n; i++)
     {
-        // top
-
-        for (int j = scol; j <= ecol; j++)
+        for (int j = 0; j < n; j++)
         {
-            ans.push_back(matrix[srow][j]);
-        }
-        // right
-
-        for (int i = srow + 1; i <= erow; i++)
-        {
-            ans.push_back(matrix[i][ecol]);
-        }
-        // bottom
-
-        for (int j = ecol - 1; j >= srow; j--)
-        {
-            if (srow == erow)
+            actualSum += grid[i][j];
+            if (s.find(grid[i][j]) != s.end())
             {
-                break;
+                a = grid[i][j];
+                ans.push_back(a);
             }
-            ans.push_back(matrix[erow][j]);
+            s.insert(grid[i][j]);
         }
-        // left
-
-        for (int i = erow - 1; i >= srow + 1; i--)
-        {
-            if (scol == ecol)
-            {
-                break;
-            }
-            ans.push_back(matrix[i][scol]);
-        }
-        srow++;
-        scol++;
-        ecol--;
-        erow--;
     }
+
+    expectedSum = (n * n) * (n * n + 1) / 2;
+    b = expectedSum + a - actualSum;
+    ans.push_back(b);
     return ans;
 }
-
 int main()
 {
-    vector<vector<int>> matrix = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-    vector<int> result = spiralMatrix(matrix);
-    for (int val : result)
+    vector<vector<int>> grid = {{1, 3, 4}, {2, 5, 8}, {7, 7, 9}};
+    vector<int> ans = findRepeatedAndMissing(grid);
+    for (int val : ans)
     {
         cout << val << " ";
     }
