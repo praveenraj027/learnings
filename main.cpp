@@ -7,17 +7,17 @@ using namespace std;
 
 int findDuplicate(vector<int> nums)
 {
-    unordered_set<int> s;
-    for (int val : nums)
+    for (int i = 0; i < nums.size(); i++)
     {
-        if (s.find(val) != s.end())
+        for (int j = i + 1; j < nums.size(); j++)
         {
-            cout << val;
-            return 0;
+            if (nums[i] == nums[j])
+            {
+                cout << nums[i] << endl;
+                return 0;
+            }
         }
-        s.insert(val);
     }
-    return -1;
 }
 int main()
 {
