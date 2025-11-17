@@ -3,7 +3,7 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-// Find Duplicate
+// ThreeSome (3Sum);
 vector<vector<int>> threeSum(vector<int> &nums)
 {
     int n = nums.size();
