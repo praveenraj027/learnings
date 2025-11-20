@@ -4,18 +4,17 @@
 #include <algorithm>
 using namespace std;
 
-void print(int n)
+int factorial(int n)
 {
     if (n == 1)
     {
-        cout << "1\n";
-        return;
+        return 1;
     }
-    cout << n << " ";
-    print(n - 1);
+
+    return n * factorial(n - 1);
 }
 
 int main()
 {
-    print(4);
+    cout << factorial(5) << endl;
 }
