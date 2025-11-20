@@ -4,17 +4,17 @@
 #include <algorithm>
 using namespace std;
 
-int factorial(int n)
+int sum(int n)
 {
-    if (n == 1)
+    if (n == 0)
     {
-        return 1;
+        return 0;
     }
 
-    return n * factorial(n - 1);
+    return n + sum(n - 1);
 }
 
 int main()
 {
-    cout << factorial(5) << endl;
+    cout << sum(10) << endl;
 }
