@@ -4,17 +4,27 @@
 #include <algorithm>
 using namespace std;
 
-int sum(int n)
+void printSubsets(vector<int> &nums, vector<int> &ans, int i)
 {
-    if (n == 0)
+    if (i == nums.size())
     {
-        return 0;
+        for (int val : ans)
+        {
+            cout << val << " ";
+        }
+        cout << endl;
+        return;
     }
-
-    return n + sum(n - 1);
+    ans.push_back(nums[i]);
+    printSubsets(nums, ans, i + 1);
+    ans.pop_back();
+    printSubsets(nums, ans, i + 1);
 }
 
 int main()
 {
-    cout << sum(10) << endl;
+    vector<int> arr = {1, 2, 3};
+    vector<int> ans;
+    printSubsets(arr, ans, 0);
+    return 0;
 }
