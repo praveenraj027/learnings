@@ -1,34 +1,52 @@
 #include <iostream>
-#include <unordered_set>
 #include <vector>
 #include <algorithm>
 using namespace std;
 
-void printSubsets(vector<int> &nums, vector<int> &ans, int i)
+void helper(vector<vector<int>> &maze, int row, int col, vector<string> &ans, string path)
 {
-    if (i == nums.size())
+    // Base case
+
+    int n = maze.size();
+    if (col < 0 || row < 0 || col >= n || row >= n || maze[row][col] == 0 || maze[row][col] == -1)
     {
-        for (int val : ans)
-        {
-            cout << val << " ";
-        }
-        cout << endl;
         return;
     }
-    ans.push_back(nums[i]);
-    printSubsets(nums, ans, i + 1);
-    ans.pop_back();
-    int idx = i + 1;
-    while (idx < nums.size() && nums[idx] == nums[idx - 1])
-        idx++;
-    printSubsets(nums, ans, idx);
+    if (row == n - 1 && col == n - 1)
+    {
+        ans.push_back(path);
+        return;
+    }
+    maze[row][col] = -1;
+
+    // Down
+    helper(maze, row + 1, col, ans, path + "D");
+    // Up
+    helper(maze, row - 1, col, ans, path + "U");
+    // Right
+    helper(maze, row, col + 1, ans, path + "R");
+    // Left
+    helper(maze, row, col - 1, ans, path + "L");
+
+    maze[row][col] = 1;
+}
+
+vector<string> findPath(vector<vector<int>> &maze)
+{
+    int n = maze.size();
+    vector<string> ans;
+    string path = "";
+    helper(maze, 0, 0, ans, path);
+    return ans;
 }
 
 int main()
 {
-    vector<int> arr = {1, 2, 2};
-    sort(arr.begin(), arr.end());
-    vector<int> ans;
-    printSubsets(arr, ans, 0);
+    vector<vector<int>> maze = {{1, 0, 0, 0}, {1, 1, 0, 1}, {1, 1, 1, 0}, {0, 0, 1, 1}};
+    vector<string> ans = findPath(maze);
+    for (string path : ans)
+    {
+        cout << path << endl;
+    }
     return 0;
 }
