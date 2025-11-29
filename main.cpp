@@ -3,50 +3,66 @@
 #include <algorithm>
 using namespace std;
 
-void helper(vector<vector<int>> &maze, int row, int col, vector<string> &ans, string path)
+void merge(vector<int> &arr, int st, int mid, int end)
 {
-    // Base case
+    int i = st, j = mid + 1;
+    vector<int> temp;
 
-    int n = maze.size();
-    if (col < 0 || row < 0 || col >= n || row >= n || maze[row][col] == 0 || maze[row][col] == -1)
+    while (i <= mid && j <= end)
     {
-        return;
+        if (arr[i] <= arr[j])
+        {
+            temp.push_back(arr[i]);
+            i++;
+        }
+        else
+        {
+            temp.push_back(arr[j]);
+            j++;
+        }
     }
-    if (row == n - 1 && col == n - 1)
+
+    while (j <= end)
     {
-        ans.push_back(path);
-        return;
+        temp.push_back(arr[j]);
+        j++;
     }
-    maze[row][col] = -1;
 
-    // Down
-    helper(maze, row + 1, col, ans, path + "D");
-    // Up
-    helper(maze, row - 1, col, ans, path + "U");
-    // Right
-    helper(maze, row, col + 1, ans, path + "R");
-    // Left
-    helper(maze, row, col - 1, ans, path + "L");
+    while (i <= mid)
+    {
+        temp.push_back(arr[i]);
+        i++;
+    }
 
-    maze[row][col] = 1;
+    for (int idx = 0; idx < temp.size(); idx++)
+    {
+        arr[idx + st] = temp[idx];
+    }
 }
 
-vector<string> findPath(vector<vector<int>> &maze)
+void mergeSort(vector<int> &arr, int st, int end)
 {
-    int n = maze.size();
-    vector<string> ans;
-    string path = "";
-    helper(maze, 0, 0, ans, path);
-    return ans;
+    if (st < end)
+    {
+        int mid = st + (end - st) / 2;
+
+        mergeSort(arr, st, mid);      // left
+        mergeSort(arr, mid + 1, end); // right
+
+        merge(arr, st, mid, end);
+    }
 }
 
 int main()
 {
-    vector<vector<int>> maze = {{1, 0, 0, 0}, {1, 1, 0, 1}, {1, 1, 1, 0}, {0, 0, 1, 1}};
-    vector<string> ans = findPath(maze);
-    for (string path : ans)
+    vector<int> arr = {46, 12, 6546, 54, 84, 132, 54};
+    mergeSort(arr, 0, arr.size());
+
+    for (int val : arr)
     {
-        cout << path << endl;
+        cout << val << " ";
     }
+    cout << endl;
+
     return 0;
 }
