@@ -3,66 +3,38 @@
 #include <algorithm>
 using namespace std;
 
-void merge(vector<int> &arr, int st, int mid, int end)
-{
-    int i = st, j = mid + 1;
-    vector<int> temp;
+int partition(vector<int>& arr, int st, int end){
+    int idx = st - 1, pivot = arr[end];
 
-    while (i <= mid && j <= end)
-    {
-        if (arr[i] <= arr[j])
-        {
-            temp.push_back(arr[i]);
-            i++;
-        }
-        else
-        {
-            temp.push_back(arr[j]);
-            j++;
+    for(int j = st; j < end; j++){
+        if(arr[j] <= pivot){
+            idx++;
+            swap(arr[j], arr[idx]);
         }
     }
-
-    while (j <= end)
-    {
-        temp.push_back(arr[j]);
-        j++;
-    }
-
-    while (i <= mid)
-    {
-        temp.push_back(arr[i]);
-        i++;
-    }
-
-    for (int idx = 0; idx < temp.size(); idx++)
-    {
-        arr[idx + st] = temp[idx];
-    }
+    idx++;
+    swap(arr[idx], arr[end]);
+    return idx;
 }
 
-void mergeSort(vector<int> &arr, int st, int end)
+void quickSort(vector<int> &arr, int st, int end)
 {
-    if (st < end)
-    {
-        int mid = st + (end - st) / 2;
+    if(st < end){
+        int pvtIdx = partition(arr, st, end);
 
-        mergeSort(arr, st, mid);      // left
-        mergeSort(arr, mid + 1, end); // right
-
-        merge(arr, st, mid, end);
+        quickSort(arr, st, pvtIdx - 1); //leftcall
+        quickSort(arr, pvtIdx + 1, end); //rightcall
     }
 }
 
 int main()
 {
-    vector<int> arr = {46, 12, 6546, 54, 84, 132, 54};
-    mergeSort(arr, 0, arr.size() - 1);
+    vector<int> arr = {5, 4, 3, 2, 1};
+    quickSort(arr, 0, arr.size() - 1);
 
-    for (int val : arr)
-    {
+    for (int val : arr){
         cout << val << " ";
     }
     cout << endl;
-
     return 0;
 }
