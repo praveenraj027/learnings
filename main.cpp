@@ -3,17 +3,19 @@
 #include <algorithm>
 using namespace std;
 
-string reverseStr(string s, int left, int right)
+int countVowels(string s, int i)
 {
-    if (left >= right)
-        return s;
-
-    swap(s[left], s[right]);
-    return reverseStr(s, left + 1, right - 1);
+    if (i == s.length())
+        return 0;
+    int count = 0;
+    if (s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u')
+    {
+        count++;
+    }
+    return count + countVowels(s, i + 1);
 }
-
 int main()
 {
     string s = "praveen";
-    cout << reverseStr(s, 0, s.length() - 1);
+    cout << countVowels(s, 0);
 }
