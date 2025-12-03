@@ -3,14 +3,15 @@
 #include <algorithm>
 using namespace std;
 
-int sumDig(int n)
+int power(int a, int b)
 {
-    if (n < 10)
-        return n;
-    return n % 10 + sumDig(n / 10);
+    if(b == 0) return 1;
+
+    return a * power(a, b - 1);
+
 }
 
 int main()
 {
-    cout << sumDig(532);
+    cout << power(6, 3);
 }
