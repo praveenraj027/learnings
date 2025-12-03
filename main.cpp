@@ -3,19 +3,20 @@
 #include <algorithm>
 using namespace std;
 
-int countVowels(string s, int i)
+int countInversion(vector<int>& nums)
 {
-    if (i == s.length())
-        return 0;
     int count = 0;
-    if (s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u')
-    {
-        count++;
+    for (int i = 0; i < nums.size(); i++){
+        for (int j = i; j < nums.size(); j++){
+            if (i < j && nums[i] > nums[j]){
+                count++;
+            }
+        }
     }
-    return count + countVowels(s, i + 1);
+    return count;
 }
 int main()
 {
-    string s = "praveen";
-    cout << countVowels(s, 0);
+    vector<int> arr = {6, 3, 5, 2, 7};
+    cout << countInversion(arr);
 }
