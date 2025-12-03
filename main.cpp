@@ -3,15 +3,17 @@
 #include <algorithm>
 using namespace std;
 
-int power(int a, int b)
+string reverseStr(string s, int left, int right)
 {
-    if(b == 0) return 1;
+    if (left >= right)
+        return s;
 
-    return a * power(a, b - 1);
-
+    swap(s[left], s[right]);
+    return reverseStr(s, left + 1, right - 1);
 }
 
 int main()
 {
-    cout << power(6, 3);
+    string s = "praveen";
+    cout << reverseStr(s, 0, s.length() - 1);
 }
