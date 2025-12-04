@@ -3,63 +3,22 @@
 #include <algorithm>
 using namespace std;
 
-int merge(vector<int> &arr, int st, int end, int mid)
+int countUpper(string s, int i)
 {
-    vector<int> temp;
-    int i = st, j = mid + 1;
-    int invCount = 0;
 
-    while (i <= mid && j <= end)
+    if (i == s.length())
+        return 0;
+    int count = 0;
+    if (s[i] >= 'A' && s[i] <= 'Z')
     {
-        if (arr[i] < arr[j])
-        {
-            temp.push_back(arr[i]);
-            i++;
-        }
-        else
-        {
-            temp.push_back(arr[j]);
-            j++;
-            invCount += (mid - i + 1);
-        }
-    }
-    while (i <= mid)
-    {
-        temp.push_back(arr[i]);
-        i++;
+        count++;
     }
 
-    while (j <= end)
-    {
-        temp.push_back(arr[j]);
-        j++;
-    }
-
-    for (int idx = 0; idx < temp.size(); idx++)
-    {
-        arr[idx + st] = temp[idx];
-    }
-    return invCount;
-}
-
-int mergeSort(vector<int> &arr, int st, int end)
-{
-    if (st < end)
-    {
-        int mid = st + (end - st) / 2;
-
-        int leftInvCount = mergeSort(arr, st, mid);
-        int rightInvCount = mergeSort(arr, mid + 1, end);
-
-        int invCount = merge(arr, st, end, mid);
-
-        return leftInvCount + rightInvCount + invCount;
-    }
-    return 0;
+    return count + countUpper(s, i + 1);
 }
 
 int main()
 {
-    vector<int> arr = {1, 3, 5, 10, 2, 6, 8, 9};
-    cout << mergeSort(arr, 0, arr.size() - 1);
+    string s = "PraVeeN";
+    cout << countUpper(s, 0);
 }
