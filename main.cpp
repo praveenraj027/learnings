@@ -3,22 +3,22 @@
 #include <algorithm>
 using namespace std;
 
-int countUpper(string s, int i)
-{
-
-    if (i == s.length())
-        return 0;
-    int count = 0;
-    if (s[i] >= 'A' && s[i] <= 'Z')
-    {
-        count++;
-    }
-
-    return count + countUpper(s, i + 1);
+bool isSorted(vector<int> &arr, int i, int n){
+    if (i == n - 1) return true;
+    if (arr[i] >= arr[i + 1]){
+        return false;
+    }   
+    return isSorted(arr, i + 1, n);
 }
 
 int main()
 {
-    string s = "PraVeeN";
-    cout << countUpper(s, 0);
+    vector<int> arr = {1, 2, 3, 4};
+    if (isSorted(arr, 0, arr.size())){
+        cout << "Sorted" << endl;
+    }
+    else
+    {
+        cout << "Not sorted" << endl;
+    }
 }
