@@ -8,17 +8,17 @@ private:
     double salary;
 
 public:
-    Teacher(string n, string d, string s, double sal)
-    {
-        name = n;
-        dept = d;
-        subject = s;
-        salary = sal;
-    }
     // properties / attributes
     string name;
     string dept;
     string subject;
+    Teacher(string name, string dept, string subject, double salary)
+    {
+        this->name = name;
+        this->dept = dept;
+        this->subject = subject;
+        this->salary = salary;
+    }
     // methods / member functions
 
     void changeDept(string newDept)
@@ -40,6 +40,8 @@ public:
 int main()
 {
     Teacher t1("Piyuuu", "AIML", "OOPS", 12050);
-    t1.display();
+    Teacher t2(t1); //default copy constructor
+
+    t2.display();
     return 0;
 }
