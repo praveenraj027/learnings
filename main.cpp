@@ -8,9 +8,12 @@ private:
     double salary;
 
 public:
-    Teacher()
+    Teacher(string n, string d, string s, double sal)
     {
-        salary = 12500;
+        name = n;
+        dept = d;
+        subject = s;
+        salary = sal;
     }
     // properties / attributes
     string name;
@@ -28,20 +31,15 @@ public:
         salary = s;
     }
 
-    void displaySalary()
+    void display()
     {
-        cout << "Salary: " << salary << endl;
+        cout << "Name: " << name << ", Dept: " << dept << ", Subject: " << subject << ", Salary: " << salary << endl;
     }
 };
 
 int main()
 {
-    Teacher t1;
-    Teacher t2;
-    t1.name = "Piyu";
-    cout << t1.name << endl;
-    t1.setSalary(15000);
-    t1.displaySalary();
-    t2.displaySalary();
+    Teacher t1("Piyuuu", "AIML", "OOPS", 12050);
+    t1.display();
     return 0;
 }
