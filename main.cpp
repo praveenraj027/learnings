@@ -2,56 +2,31 @@
 #include <string>
 using namespace std;
 
-class Teacher
+class Student
 {
-private:
-    double salary;
-
 public:
-    // properties / attributes
     string name;
-    string dept;
-    string subject;
-    // Parameterized constructor
-    Teacher(string name, string dept, string subject, double salary)
-    {
+    double* cgpaPtr;
+
+    Student(string name, double cgpa){
         this->name = name;
-        this->dept = dept;
-        this->subject = subject;
-        this->salary = salary;
+        cgpaPtr = new double;
+        *cgpaPtr = cgpa;
     }
-    // Custom copy constructor
-    Teacher(Teacher &orgObj)
-    {
-        cout << "I am a custom copy sonstructor" << endl;
-        this->name = orgObj.name;
-        this->dept = orgObj.dept;
-        this->subject = orgObj.subject;
-        this->salary = orgObj.salary;
-    }
-    // methods / member functions
-
-    void changeDept(string newDept)
-    {
-        dept = newDept;
+    ~Student(){
+       cout << "Hi, I delete everything" << endl; 
+       delete cgpaPtr;
     }
 
-    void setSalary(double s)
-    {
-        salary = s;
-    }
-
-    void display()
-    {
-        cout << "Name: " << name << ", Dept: " << dept << ", Subject: " << subject << ", Salary: " << salary << endl;
+    void getInfo(){
+        cout << "Name: " << name << endl;
+        cout << "CGPA: " << *cgpaPtr << endl;
     }
 };
 
 int main()
 {
-    Teacher t1("Piyuuu", "AIML", "OOPS", 12050);
-    Teacher t2(t1); // default copy constructor
-
-    t2.display();
+    Student s1("Piyaa", 9.1);
+    s1.getInfo();
     return 0;
 }
