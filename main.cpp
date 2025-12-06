@@ -2,37 +2,23 @@
 #include <string>
 using namespace std;
 
-class Parent
+class Shape
 {
-public:
-    void display()
-    {
-        cout << "Parent class\n";
-    }
-    virtual void hello()
-    {
-        cout << "Hello from Parent\n";
-    }
+    virtual void draw() = 0;
 };
 
-class Child : public Parent
+class Circle : public Shape
 {
 public:
-    void display()
+    void draw()
     {
-        cout << "Child Class\n";
-    }
-    void hello()
-    {
-        cout << "Hello from child\n";
+        cout << "Drawing a circle\n";
     }
 };
 
 int main()
 {
-    Child c1;
-    c1.hello();
-    Parent p1;
-    p1.hello();
+    Circle s1;
+    s1.draw();
     return 0;
 }
