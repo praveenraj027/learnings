@@ -2,37 +2,37 @@
 #include <string>
 using namespace std;
 
-class Person
+class Parent
 {
 public:
-    string name;
-    int age;
-
-    Person(string name, int age)
-    {
-        this->name = name;
-        this->age = age;
-    }
-};
-class Student : public Person
-{
-public:
-    int rollNo;
-    Student(string name, int age, int rollNo) : Person(name, age)
-    {
-        this->rollNo = rollNo;
-    }
     void display()
     {
-        cout << "Name: " << name << endl;
-        cout << "Age: " << age << endl;
-        cout << "Roll no: " << rollNo << endl;
+        cout << "Parent class\n";
+    }
+    virtual void hello()
+    {
+        cout << "Hello from Parent\n";
+    }
+};
+
+class Child : public Parent
+{
+public:
+    void display()
+    {
+        cout << "Child Class\n";
+    }
+    void hello()
+    {
+        cout << "Hello from child\n";
     }
 };
 
 int main()
 {
-    Student s1("Piyuu", 19, 194);
-    s1.display();
+    Child c1;
+    c1.hello();
+    Parent p1;
+    p1.hello();
     return 0;
 }
