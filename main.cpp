@@ -8,15 +8,20 @@ public:
     string name;
     int age;
 
-    Person()
+    Person(string name, int age)
     {
+        this->name = name;
+        this->age = age;
     }
 };
 class Student : public Person
 {
 public:
     int rollNo;
-
+    Student(string name, int age, int rollNo) : Person(name, age)
+    {
+        this->rollNo = rollNo;
+    }
     void display()
     {
         cout << "Name: " << name << endl;
@@ -24,12 +29,10 @@ public:
         cout << "Roll no: " << rollNo << endl;
     }
 };
+
 int main()
 {
-    Student s1;
-    s1.name = "Piyu";
-    s1.age = 12;
-    s1.rollNo = 123;
+    Student s1("Piyuu", 19, 194);
     s1.display();
     return 0;
 }
