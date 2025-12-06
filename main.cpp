@@ -2,31 +2,34 @@
 #include <string>
 using namespace std;
 
-class Student
+class Person
 {
 public:
     string name;
-    double* cgpaPtr;
+    int age;
 
-    Student(string name, double cgpa){
-        this->name = name;
-        cgpaPtr = new double;
-        *cgpaPtr = cgpa;
-    }
-    ~Student(){
-       cout << "Hi, I delete everything" << endl; 
-       delete cgpaPtr;
-    }
-
-    void getInfo(){
-        cout << "Name: " << name << endl;
-        cout << "CGPA: " << *cgpaPtr << endl;
+    Person()
+    {
     }
 };
+class Student : public Person
+{
+public:
+    int rollNo;
 
+    void display()
+    {
+        cout << "Name: " << name << endl;
+        cout << "Age: " << age << endl;
+        cout << "Roll no: " << rollNo << endl;
+    }
+};
 int main()
 {
-    Student s1("Piyaa", 9.1);
-    s1.getInfo();
+    Student s1;
+    s1.name = "Piyu";
+    s1.age = 12;
+    s1.rollNo = 123;
+    s1.display();
     return 0;
 }
