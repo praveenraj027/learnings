@@ -55,6 +55,14 @@ public:
         }
     }
 
+    void pop_front()
+    {
+        Node *temp = head;
+        head = head->next;
+        temp->next = NULL;
+        delete temp;
+    }
+
     void printLL()
     {
         Node *temp = head;
@@ -76,6 +84,7 @@ int main()
     ll.push_front(3);
     ll.printLL();
     ll.push_back(12);
+    ll.pop_front();
     ll.printLL();
     return 0;
 }
