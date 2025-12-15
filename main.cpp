@@ -55,6 +55,21 @@ public:
             tail = newNode;
         }
     }
+
+    void pop_front()
+    {
+        if (head == NULL){
+            cout << "DLL is empty!!" << endl;
+        }
+        Node *temp = head;
+        head = head->next;
+        if (head != NULL)
+        {
+            head->prev = NULL;
+        }
+        temp->next = NULL;
+        delete temp;
+    }
     void print()
     {
         Node *temp = head;
@@ -75,6 +90,7 @@ int main()
     dll.push_front(1);
     dll.print();
     dll.push_back(4);
+    dll.pop_front();
     dll.push_back(5);
     dll.print();
     return 0;
