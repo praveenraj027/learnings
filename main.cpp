@@ -41,22 +41,65 @@ public:
             tail->next = head;
         }
     }
+    void push_atTail(int val)
+    {
+        Node *newNode = new Node(val);
+        if (head == NULL)
+        {
+            head = tail = newNode;
+            tail->next = head;
+        }
+        else
+        {
+            tail->next = newNode;
+            tail = newNode;
+            tail->next = head;
+        }
+    }
 
+    void delete_atHead()
+    {
+        if (head == NULL)
+            return;
+        Node *temp = head;
+        if (head == tail)
+        {
+            delete head;
+            head = tail = NULL;
+        }
+        else
+        {
+            head = head->next;
+            tail->next = head;
+            temp->next = NULL;
+            delete temp;
+        }
+    }
     void print()
     {
         if (head == NULL)
             return;
-        cout << head->data << " ";
-        Node *temp = head;
+        cout << head->data << " -> ";
+        Node *temp = head->next;
         while (temp != head)
         {
-            cout << temp->data << " ";
+            cout << temp->data << " -> ";
+            temp = temp->next;
         }
-        cout << endl;
+        cout << temp->data << endl;
     }
 };
 
 int main()
 {
+    CircularList cll;
+    cll.push_atHead(1);
+    cll.push_atHead(2);
+    cll.push_atHead(3);
+    cll.print();
+    cll.push_atTail(14);
+    cll.delete_atHead();
+    cll.push_atTail(54);
+    cll.print();
     return 0;
 }
