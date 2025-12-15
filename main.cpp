@@ -7,21 +7,22 @@ class Node
 public:
     int data;
     Node *next;
+    Node *prev;
 
     Node(int val)
     {
         data = val;
         next = NULL;
+        prev = NULL;
     }
 };
-
-class List
+class DoublyList
 {
     Node *head;
     Node *tail;
 
 public:
-    List()
+    DoublyList()
     {
         head = tail = NULL;
     }
@@ -32,11 +33,11 @@ public:
         if (head == NULL)
         {
             head = tail = newNode;
-            return;
         }
         else
         {
             newNode->next = head;
+            head->prev = newNode;
             head = newNode;
         }
     }
@@ -46,116 +47,35 @@ public:
         if (head == NULL)
         {
             head = tail = newNode;
-            return;
         }
         else
         {
             tail->next = newNode;
+            newNode->prev = tail;
             tail = newNode;
         }
     }
-
-    void pop_front()
-    {
-        if (head == NULL)
-        {
-            cout << "List is empty, nothing to delete." << endl;
-            return;
-        }
-        Node *temp = head;
-        head = head->next;
-        temp->next = NULL;
-        delete temp;
-    }
-    void pop_back()
-    {
-        if (head == NULL)
-        {
-            cout << "List is empty, nothing to delete." << endl;
-            return;
-        }
-        if (head == tail)
-        {
-            delete head;
-            head = tail = NULL;
-            return;
-        }
-        Node *temp = head;
-        while (temp->next != tail)
-        {
-            temp = temp->next;
-        }
-
-        temp->next = NULL;
-        delete tail;
-        tail = temp;
-    }
-
-    void insert(int val, int pos)
-    {
-        if (pos < 0)
-        {
-            cout << "Invalid position.." << endl;
-            return;
-        }
-        if (pos == 0)
-        {
-            push_front(val);
-            return;
-        }
-
-        Node *temp = head;
-        for (int i = 0; i < pos - 1; i++)
-        {
-            temp = temp->next;
-        }
-        Node *newNode = new Node(val);
-        newNode->next = temp->next;
-        temp->next = newNode;
-    }
-
-    void printLL()
+    void print()
     {
         Node *temp = head;
-        if (head == NULL)
-        {
-            cout << "List is empty." << endl;
-            return;
-        }
+        cout << "NULL <=> ";
         while (temp != NULL)
         {
-            cout << temp->data << " -> ";
-            temp = (*temp).next;
-        }
-        cout << "NULL" << endl;
-    }
-    void search(int key)
-    {
-        Node *temp = head;
-        if (head == NULL)
-        {
-            cout << "List is empty." << endl;
-            return;
-        }
-        int idx = 0;
-        while (temp != NULL)
-        {
-            if (temp->data == key)
-            {
-                cout << key << " is found at index: " << idx << endl;
-                return;
-            }
+            cout << temp->data << " <=> ";
             temp = temp->next;
-            idx++;
         }
-        cout << endl;
+        cout << "NULL " << endl;
     }
 };
-
 int main()
 {
-    List ll;
-    ll.search(1);
-    ll.printLL();
+    DoublyList dll;
+    dll.push_front(3);
+    dll.push_front(2);
+    dll.push_front(1);
+    dll.print();
+    dll.push_back(4);
+    dll.push_back(5);
+    dll.print();
     return 0;
 }
