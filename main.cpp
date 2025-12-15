@@ -75,6 +75,29 @@ public:
             delete temp;
         }
     }
+    void delete_atTail()
+    {
+        if (head == NULL)
+            return;
+        Node *temp = tail;
+        Node *prev = head;
+        if (head == tail)
+        {
+            delete head;
+            head = tail = NULL;
+        }
+        else
+        {
+            while (prev->next != tail)
+            {
+                prev = prev->next;
+            }
+            tail = prev;
+            tail->next = head;
+            temp->next = NULL;
+            delete temp;
+        }
+    }
     void print()
     {
         if (head == NULL)
@@ -100,6 +123,7 @@ int main()
     cll.push_atTail(14);
     cll.delete_atHead();
     cll.push_atTail(54);
+    cll.delete_atTail();
     cll.print();
     return 0;
 }
