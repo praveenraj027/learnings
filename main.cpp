@@ -7,108 +7,56 @@ class Node
 public:
     int data;
     Node *next;
-    Node *prev;
 
     Node(int val)
     {
         data = val;
         next = NULL;
-        prev = NULL;
     }
 };
-class DoublyList
+
+class CircularList
 {
-    Node *head;
-    Node *tail;
+    Node *head = NULL;
+    Node *tail = NULL;
 
 public:
-    DoublyList()
+    CircularList()
     {
         head = tail = NULL;
     }
 
-    void push_front(int val)
+    void push_atHead(int val)
     {
         Node *newNode = new Node(val);
         if (head == NULL)
         {
             head = tail = newNode;
+            tail->next = head;
         }
         else
         {
             newNode->next = head;
-            head->prev = newNode;
             head = newNode;
-        }
-    }
-    void push_back(int val)
-    {
-        Node *newNode = new Node(val);
-        if (head == NULL)
-        {
-            head = tail = newNode;
-        }
-        else
-        {
-            tail->next = newNode;
-            newNode->prev = tail;
-            tail = newNode;
+            tail->next = head;
         }
     }
 
-    void pop_front()
-    {
-        if (head == NULL)
-        {
-            cout << "DLL is empty!!" << endl;
-        }
-        Node *temp = head;
-        head = head->next;
-        if (head != NULL)
-        {
-            head->prev = NULL;
-        }
-        temp->next = NULL;
-        delete temp;
-    }
-    void pop_back()
-    {
-        if (head == NULL)
-        {
-            cout << "DLL is empty!!" << endl;
-        }
-        Node *temp = tail;
-        tail = tail->prev;
-        if (tail != NULL)
-        {
-            tail->next = NULL;
-        }
-        temp->prev = NULL;
-        delete temp;
-    }
     void print()
     {
+        if (head == NULL)
+            return;
+        cout << head->data << " ";
         Node *temp = head;
-        cout << "NULL <=> ";
-        while (temp != NULL)
+        while (temp != head)
         {
-            cout << temp->data << " <=> ";
-            temp = temp->next;
+            cout << temp->data << " ";
         }
-        cout << "NULL " << endl;
+        cout << endl;
     }
 };
+
 int main()
 {
-    DoublyList dll;
-    dll.push_front(3);
-    dll.push_front(2);
-    dll.push_front(1);
-    dll.print();
-    dll.push_back(4);
-    dll.pop_front();
-    dll.push_back(5);
-    dll.pop_back();
-    dll.print();
     return 0;
 }
