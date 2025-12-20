@@ -1,30 +1,26 @@
 #include <iostream>
-#include <vector>
+#include <list>
 using namespace std;
 
 class Stack
 {
-    vector<int> v;
-
+    list<int> ll;
 public:
     void push(int val)
     {
-        v.push_back(val);
+        ll.push_front(val);
     }
 
     void pop()
     {
-        v.pop_back();
+        ll.pop_front();
     }
     int top()
     {
-        return v[v.size() - 1];
+        return ll.front();
     }
     bool empty(){
-        if (v.size() == 0){
-            return true;
-        }
-        return false;
+        return ll.size() == 0;
     }
 };
 
@@ -34,6 +30,10 @@ int main()
     s.push(12);
     s.push(1);
     s.push(2);
+    s.push(58);
+    s.push(41);
+    s.push(52);
+    s.push(87);
     s.pop();
     while(!s.empty()){
         cout << s.top() << " ";
