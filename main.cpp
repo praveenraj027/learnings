@@ -1,129 +1,42 @@
 #include <iostream>
-#include <string>
+#include <vector>
 using namespace std;
 
-class Node
+class Stack
 {
-public:
-    int data;
-    Node *next;
-
-    Node(int val)
-    {
-        data = val;
-        next = NULL;
-    }
-};
-
-class CircularList
-{
-    Node *head = NULL;
-    Node *tail = NULL;
+    vector<int> v;
 
 public:
-    CircularList()
+    void push(int val)
     {
-        head = tail = NULL;
+        v.push_back(val);
     }
 
-    void push_atHead(int val)
+    void pop()
     {
-        Node *newNode = new Node(val);
-        if (head == NULL)
-        {
-            head = tail = newNode;
-            tail->next = head;
-        }
-        else
-        {
-            newNode->next = head;
-            head = newNode;
-            tail->next = head;
-        }
+        v.pop_back();
     }
-    void push_atTail(int val)
+    void top()
     {
-        Node *newNode = new Node(val);
-        if (head == NULL)
-        {
-            head = tail = newNode;
-            tail->next = head;
-        }
-        else
-        {
-            tail->next = newNode;
-            tail = newNode;
-            tail->next = head;
-        }
+        cout << v[v.size() - 1] << endl;
     }
-
-    void delete_atHead()
-    {
-        if (head == NULL)
-            return;
-        Node *temp = head;
-        if (head == tail)
-        {
-            delete head;
-            head = tail = NULL;
+    bool empty(){
+        if (v.size() == 0){
+            return true;
         }
-        else
-        {
-            head = head->next;
-            tail->next = head;
-            temp->next = NULL;
-            delete temp;
-        }
-    }
-    void delete_atTail()
-    {
-        if (head == NULL)
-            return;
-        Node *temp = tail;
-        Node *prev = head;
-        if (head == tail)
-        {
-            delete head;
-            head = tail = NULL;
-        }
-        else
-        {
-            while (prev->next != tail)
-            {
-                prev = prev->next;
-            }
-            tail = prev;
-            tail->next = head;
-            temp->next = NULL;
-            delete temp;
-        }
-    }
-    void print()
-    {
-        if (head == NULL)
-            return;
-        cout << head->data << " -> ";
-        Node *temp = head->next;
-        while (temp != head)
-        {
-            cout << temp->data << " -> ";
-            temp = temp->next;
-        }
-        cout << temp->data << endl;
+        return false;
     }
 };
 
 int main()
 {
-    CircularList cll;
-    cll.push_atHead(1);
-    cll.push_atHead(2);
-    cll.push_atHead(3);
-    cll.print();
-    cll.push_atTail(14);
-    cll.delete_atHead();
-    cll.push_atTail(54);
-    cll.delete_atTail();
-    cll.print();
+    Stack s;
+    s.push(12);
+    s.push(1);
+    s.push(2);
+    s.top();
+    s.pop();
+    s.top();
+    cout << s.empty();
     return 0;
 }
