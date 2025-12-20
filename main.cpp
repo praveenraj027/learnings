@@ -16,9 +16,9 @@ public:
     {
         v.pop_back();
     }
-    void top()
+    int top()
     {
-        cout << v[v.size() - 1] << endl;
+        return v[v.size() - 1];
     }
     bool empty(){
         if (v.size() == 0){
@@ -34,9 +34,11 @@ int main()
     s.push(12);
     s.push(1);
     s.push(2);
-    s.top();
     s.pop();
-    s.top();
-    cout << s.empty();
+    while(!s.empty()){
+        cout << s.top() << " ";
+        s.pop();
+    }
+    cout << endl;
     return 0;
 }
