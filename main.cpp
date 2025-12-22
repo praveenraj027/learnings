@@ -1,23 +1,35 @@
 #include <iostream>
 #include <stack>
+#include <vector>
 using namespace std;
-
 
 int main()
 {
+    vector<int> prices = {100, 80, 60, 70, 60, 75, 85};
+    vector<int> ans(prices.size());
     stack<int> s;
-    s.push(12);
-    s.push(1);
-    s.push(2);
-    s.push(58);
-    s.push(41);
-    s.push(52);
-    s.push(87);
-    s.pop();
-    while(!s.empty()){
-        cout << s.top() << " ";
-        s.pop();
+
+    for (int i = 0; i < prices.size(); i++)
+    {
+        while (s.size() > 0 && prices[s.top()] <= prices[i])
+        {
+            s.pop();
+        }
+
+        if (s.size() == 0)
+        {
+            ans[i] = i + 1;
+        }
+        else
+        {
+            ans[i] = i - s.top();
+        }
+        s.push(i);
     }
-    cout << endl;
+    cout << "[ ";
+    for (int val : ans){
+        cout << val << " ";
+    }
+    cout << "]" << endl;
     return 0;
 }
