@@ -5,31 +5,25 @@ using namespace std;
 
 int main()
 {
-    vector<int> prices = {100, 80, 60, 70, 60, 75, 85};
-    vector<int> ans(prices.size());
+    vector<int> nums = {6, 8, 0, 1, 3};
     stack<int> s;
+    vector<int> ans(nums.size());
 
-    for (int i = 0; i < prices.size(); i++)
-    {
-        while (s.size() > 0 && prices[s.top()] <= prices[i])
-        {
+    for (int i = nums.size() - 1; i >= 0; i--){
+        while(s.size() > 0 && s.top() <= nums[i]){
             s.pop();
         }
-
-        if (s.size() == 0)
-        {
-            ans[i] = i + 1;
+        if (s.empty()) {
+            ans[i] = -1;
         }
-        else
-        {
-            ans[i] = i - s.top();
+        else{
+            ans[i] = s.top();
         }
-        s.push(i);
+        s.push(nums[i]);
     }
-    cout << "[ ";
+
     for (int val : ans){
         cout << val << " ";
     }
-    cout << "]" << endl;
     return 0;
 }
