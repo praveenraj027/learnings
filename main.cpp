@@ -1,17 +1,14 @@
 #include <iostream>
-#include <queue>
+#include <deque>
 using namespace std;
 
 int main()
 {
-    queue<int> q;
-    q.push(1);
-    q.push(2);
-    q.push(3);
-    q.push(4);
-    while(!q.empty()){
-        cout << q.front() << " ";
-        q.pop();
-    }
+    deque<int> dq;
+    dq.push_back(12);
+    dq.push_back(22);
+    dq.push_front(45);
+    dq.push_front(13);
+    cout << dq.front() << " " << dq.back() << endl;
     return 0;
 }
