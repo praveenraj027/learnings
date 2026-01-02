@@ -45,11 +45,19 @@ void inorderTraversal(Node *root)
     cout << root->data << " ";
     inorderTraversal(root->right);
 }
+void postorderTraversal(Node *root)
+{
+    if (root == NULL)
+        return;
+    postorderTraversal(root->left);
+    postorderTraversal(root->right);
+    cout << root->data << " ";
+}
 
 int main()
 {
     vector<int> preorder = {1, 2, -1, -1, 3, 4, -1, -1, 5, -1, -1};
     Node *root = buildTree(preorder);
-    inorderTraversal(root);
+    postorderTraversal(root);
     return 0;
 }
