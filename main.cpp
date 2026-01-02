@@ -1,73 +1,38 @@
 #include <iostream>
-#include <deque>
+#include <vector>
 using namespace std;
 
-class CircularQueue
+class Node
 {
-    int *arr;
-    int currSize, cap;
-    int f, rear;
-
 public:
-    CircularQueue(int size)
-    {
-        cap = size;
-        arr = new int[cap];
-        currSize = 0;
-        f = 0;
-        rear = -1;
-    }
+    int data;
+    Node *left;
+    Node *right;
 
-    void push(int data)
+    Node(int val)
     {
-        if (currSize == cap)
-        {
-            cout << "Queue is full.." << endl;
-            return;
-        }
-        rear = (rear + 1) % cap;
-        arr[rear] = data;
-        currSize++;
-    }
-
-    void pop()
-    {
-        if (currSize == 0)
-        {
-            cout << "Queue is empty.." << endl;
-            return;
-        }
-        f = (f + 1) % cap;
-        currSize--;
-    }
-
-    int front()
-    {
-        if (currSize == 0)
-        {
-            cout << "Queue is empty.." << endl;
-            return 0;
-        }
-
-        return arr[f];
-    }
-
-    bool empty()
-    {
-        return currSize == 0;
+        data = val;
+        left = right = NULL;
     }
 };
 
+static int idx = -1;
+Node *buildTree(vector<int> &preorder)
+{
+    idx++;
+    if (preorder[idx] == -1)
+        return NULL;
+    Node *root = new Node(preorder[idx]);
+    root->left = buildTree(preorder);
+    root->right = buildTree(preorder);
+
+    return root;
+}
+
 int main()
 {
-    CircularQueue cq(5);
-    cq.push(2);
-    cq.push(21);
-    cq.push(54);
-    cq.push(12);
-    while (!cq.empty()){
-        cout << cq.front() << " ";
-        cq.pop();
-    }
+    vector<int> preorder = {4, 2, -1, -1, 3, 5, -1, -1, 6, -1, -1};
+    Node* root = buildTree(preorder);
+    cout << root->data << endl;
     return 0;
 }
