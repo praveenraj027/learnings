@@ -30,69 +30,22 @@ Node *buildTree(vector<int> &preorder)
     return root;
 }
 
-void preorderTraversal(Node *root)
+int heightOfTree(Node *root)
 {
-    if (root == NULL)
-        return;
-    cout << root->data << " ";
-    preorderTraversal(root->left);
-    preorderTraversal(root->right);
-}
-void inorderTraversal(Node *root)
-{
-    if (root == NULL)
-        return;
-    inorderTraversal(root->left);
-    cout << root->data << " ";
-    inorderTraversal(root->right);
-}
-void postorderTraversal(Node *root)
-{
-    if (root == NULL)
-        return;
-    postorderTraversal(root->left);
-    postorderTraversal(root->right);
-    cout << root->data << " ";
-}
-void levelorderTraversal(Node *root)
-{
-    queue<Node *> q;
-    q.push(root);
-    q.push(NULL);
-    while (q.size() > 0)
-    {
-        Node *curr = q.front();
-        q.pop();`
-
-        if (curr == NULL)
-        {
-            if (!q.empty())
-            {
-                cout << endl;
-                q.push(NULL);
-                continue;
-            }
-            else
-            {
-                break;
-            }
-        }
-        cout << curr->data << " ";
-        if (curr->left != NULL)
-        {
-            q.push(curr->left);
-        }
-        if (curr->right != NULL)
-        {
-            q.push(curr->right);
-        }
+    if (root == NULL){
+        return 0;
     }
+
+    int leftHeight = heightOfTree(root->left);
+    int rightHeight = heightOfTree(root->right);
+
+    return max(leftHeight, rightHeight) + 1;
 }
 
 int main()
 {
-    vector<int> preorder = {1, 2, -1, -1, 3, 4, -1, -1, 5, -1, -1};
+    vector<int> preorder = {1, 2, 6, -1, -1, -1, 3, 4, -1, -1, 5, -1, -1};
     Node *root = buildTree(preorder);
-    levelorderTraversal(root);
+    cout << heightOfTree(root);
     return 0;
 }
