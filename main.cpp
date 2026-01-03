@@ -30,20 +30,20 @@ Node *buildTree(vector<int> &preorder)
     return root;
 }
 
-int count(Node *root)
+int sum(Node *root)
 {
     if (root == NULL)
         return 0;
-    int leftCount = count(root->left);
-    int rightCount = count(root->right);
+    int leftSum = sum(root->left);
+    int rightSum = sum(root->right);
 
-    return leftCount + rightCount + 1;
+    return leftSum + rightSum + root->data;
 }
 
 int main()
 {
     vector<int> preorder = {1, 2, 6, -1, -1, -1, 3, 4, -1, -1, 5, -1, -1};
     Node *root = buildTree(preorder);
-    cout << count(root);
+    cout << sum(root);
     return 0;
 }
