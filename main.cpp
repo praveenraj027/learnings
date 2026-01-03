@@ -30,22 +30,20 @@ Node *buildTree(vector<int> &preorder)
     return root;
 }
 
-int heightOfTree(Node *root)
+int count(Node *root)
 {
-    if (root == NULL){
+    if (root == NULL)
         return 0;
-    }
+    int leftCount = count(root->left);
+    int rightCount = count(root->right);
 
-    int leftHeight = heightOfTree(root->left);
-    int rightHeight = heightOfTree(root->right);
-
-    return max(leftHeight, rightHeight) + 1;
+    return leftCount + rightCount + 1;
 }
 
 int main()
 {
     vector<int> preorder = {1, 2, 6, -1, -1, -1, 3, 4, -1, -1, 5, -1, -1};
     Node *root = buildTree(preorder);
-    cout << heightOfTree(root);
+    cout << count(root);
     return 0;
 }
