@@ -31,24 +31,35 @@ Node *buildTree(vector<int> &preorder)
     return root;
 }
 
-void kthLevel(Node* root, int k){
-    if (root == NULL){
+void preOrder(Node *root)
+{
+    if (root == NULL)
         return;
-    }
 
-    if (k == 1){
-        cout << root->data << " ";
-        return;
-    }
+    cout << root->data << " ";
+    preOrder(root->left);
+    preOrder(root->right);
+}
 
-    kthLevel(root->left, k - 1);
-    kthLevel(root->right, k - 1);
+int sumTree(Node *root)
+{
+    if (root == NULL)
+        return 0;
+
+    int leftSum = sumTree(root->left);
+    int rightSum = sumTree(root->right);
+
+    root->data += leftSum + rightSum;
+    return root->data;
 }
 
 int main()
 {
     vector<int> preorder = {1, 2, 6, -1, -1, -1, 3, 4, -1, -1, 5, -1, -1};
     Node *root = buildTree(preorder);
-        kthLevel(root, 3);
+    preOrder(root);
+    cout << endl;
+    sumTree(root);
+    preOrder(root);
     return 0;
 }
