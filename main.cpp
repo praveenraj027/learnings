@@ -18,48 +18,49 @@ public:
     }
 };
 
-static int idx = -1;
-Node *buildTree(vector<int> &preorder)
+Node *insert(Node *root, int val)
 {
-    idx++;
-    if (preorder[idx] == -1)
-        return NULL;
-    Node *root = new Node(preorder[idx]);
-    root->left = buildTree(preorder);
-    root->right = buildTree(preorder);
+    if (root == NULL)
+    {
+        return new Node(val);
+    }
 
+    if (val < root->data)
+    {
+        root->left = insert(root->left, val);
+    }
+    if (val > root->data)
+    {
+        root->right = insert(root->right, val);
+    }
     return root;
 }
 
-void preOrder(Node *root)
+void inorder(Node *root)
 {
     if (root == NULL)
         return;
 
+    inorder(root->left);
     cout << root->data << " ";
-    preOrder(root->left);
-    preOrder(root->right);
+    inorder(root->right);
 }
 
-int sumTree(Node *root)
+Node *buildBST(vector<int> &arr)
 {
-    if (root == NULL)
-        return 0;
+    Node *root = NULL;
 
-    int leftSum = sumTree(root->left);
-    int rightSum = sumTree(root->right);
-
-    root->data += leftSum + rightSum;
-    return root->data;
+    for (int val : arr)
+    {
+        root = insert(root, val);
+    }
+    return root;
 }
 
 int main()
 {
-    vector<int> preorder = {1, 2, 6, -1, -1, -1, 3, 4, -1, -1, 5, -1, -1};
-    Node *root = buildTree(preorder);
-    preOrder(root);
-    cout << endl;
-    sumTree(root);
-    preOrder(root);
+    vector<int> arr = {3, 2, 1, 5, 6, 4};
+    Node *root = buildBST(arr);
+    inorder(root);
     return 0;
 }
