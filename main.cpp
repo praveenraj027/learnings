@@ -46,8 +46,7 @@ bool search(Node *root, int val)
     {
         return search(root->left, val);
     }
-        return search(root->right, val);
-
+    return search(root->right, val);
 }
 
 void inorder(Node *root)
@@ -71,10 +70,58 @@ Node *buildBST(vector<int> &arr)
     return root;
 }
 
+Node *getInorderSuccessor(Node *root)
+{
+    while (root != NULL && root->left != NULL)
+    {
+        root = root->left;
+    }
+    return root;
+}
+
+Node *delNode(Node *root, int key)
+{
+    if (root == NULL)
+        return root;
+    if (key < root->data)
+    {
+        root->left = delNode(root->left, key);
+    }
+    else if (key > root->data)
+    {
+        root->right = delNode(root->right, key);
+    }
+    else
+    {
+        if (root->left == NULL)
+        {
+            Node *temp = root->right;
+            delete root;
+            return temp;
+        }
+        else if (root->right == NULL)
+        {
+            Node *temp = root->left;
+            delete root;
+            return temp;
+        }
+        else
+        {
+            Node *IS = getInorderSuccessor(root->right);
+            root->data = IS->data;
+            root->right = delNode(root->right, IS->data);
+        }
+    }
+    return root;
+}
+
 int main()
 {
     vector<int> arr = {3, 2, 1, 5, 6, 4};
     Node *root = buildBST(arr);
-    cout << search(root, 20) << endl;
+    inorder(root);
+    cout << endl;
+    delNode(root, 1);
+    inorder(root);
     return 0;
 }
