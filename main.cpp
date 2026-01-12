@@ -49,14 +49,29 @@ bool search(Node *root, int val)
     return search(root->right, val);
 }
 
-void inorder(Node *root)
+void inorder(Node *root, vector<int> &arr)
 {
     if (root == NULL)
         return;
 
-    inorder(root->left);
-    cout << root->data << " ";
-    inorder(root->right);
+    inorder(root->left, arr);
+    arr.push_back(root->data);
+    inorder(root->right, arr);
+}
+
+Node *buildBSTFromSortedArray(vector<int> arr, int st, int end)
+{
+    if (st > end)
+    {
+        return NULL;
+    }
+
+    int mid = st + (end - st) / 2;
+    Node *root = new Node(arr[mid]);
+    root->left = buildBSTFromSortedArray(arr, st, mid - 1);
+    root->right = buildBSTFromSortedArray(arr, mid + 1, end);
+
+    return root;
 }
 
 Node *buildBST(vector<int> &arr)
@@ -70,58 +85,55 @@ Node *buildBST(vector<int> &arr)
     return root;
 }
 
-Node *getInorderSuccessor(Node *root)
+Node *merge2BST(Node *root1, Node *root2)
 {
-    while (root != NULL && root->left != NULL)
-    {
-        root = root->left;
-    }
-    return root;
-}
+    vector<int> arr1, arr2;
+    inorder(root1, arr1);
+    inorder(root2, arr2);
+    vector<int> temp;
 
-Node *delNode(Node *root, int key)
-{
-    if (root == NULL)
-        return root;
-    if (key < root->data)
+    int i = 0, j = 0;
+    while (i < arr1.size() && j < arr2.size())
     {
-        root->left = delNode(root->left, key);
-    }
-    else if (key > root->data)
-    {
-        root->right = delNode(root->right, key);
-    }
-    else
-    {
-        if (root->left == NULL)
+        if (arr1[i] < arr2[j])
         {
-            Node *temp = root->right;
-            delete root;
-            return temp;
-        }
-        else if (root->right == NULL)
-        {
-            Node *temp = root->left;
-            delete root;
-            return temp;
+            temp.push_back(arr1[i]);
+            i++;
         }
         else
         {
-            Node *IS = getInorderSuccessor(root->right);
-            root->data = IS->data;
-            root->right = delNode(root->right, IS->data);
+            temp.push_back(arr2[j]);
+            j++;
         }
     }
-    return root;
+    while (i < arr1.size())
+    {
+        temp.push_back(arr1[i]);
+        i++;
+    }
+    while (j < arr2.size())
+    {
+        temp.push_back(arr2[j]);
+        j++;
+    }
+
+    return buildBSTFromSortedArray(temp, 0, temp.size() - 1);
 }
 
 int main()
 {
-    vector<int> arr = {3, 2, 1, 5, 6, 4};
-    Node *root = buildBST(arr);
-    inorder(root);
+    vector<int> arr1 = {8, 2, 1, 10};
+    vector<int> arr2 = {5, 3, 0};
+    Node *root1 = buildBST(arr1);
+    Node *root2 = buildBST(arr2);
+
+    Node *root = merge2BST(root1, root2);
+    vector<int> seq;
+    inorder(root, seq);
+    for (int v : seq)
+    {
+        cout << v << " ";
+    }
     cout << endl;
-    delNode(root, 1);
-    inorder(root);
     return 0;
 }
