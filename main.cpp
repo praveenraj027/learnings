@@ -85,55 +85,53 @@ Node *buildBST(vector<int> &arr)
     return root;
 }
 
-Node *merge2BST(Node *root1, Node *root2)
+class Info
 {
-    vector<int> arr1, arr2;
-    inorder(root1, arr1);
-    inorder(root2, arr2);
-    vector<int> temp;
+public:
+    int min, max, sz;
 
-    int i = 0, j = 0;
-    while (i < arr1.size() && j < arr2.size())
+    Info(int minimum, int maximum, int size)
     {
-        if (arr1[i] < arr2[j])
-        {
-            temp.push_back(arr1[i]);
-            i++;
-        }
-        else
-        {
-            temp.push_back(arr2[j]);
-            j++;
-        }
+        min = minimum;
+        max = maximum;
+        sz = size;
     }
-    while (i < arr1.size())
+};
+
+Info helper(Node *root)
+{
+    if (root == NULL)
+        return Info(1000009, -1000009, 0);
+    Info left = helper(root->left);
+    Info right = helper(root->right);
+
+    if (root->data > left.max && root->data < right.min)
     {
-        temp.push_back(arr1[i]);
-        i++;
-    }
-    while (j < arr2.size())
-    {
-        temp.push_back(arr2[j]);
-        j++;
+        int currMin = min(root->data, left.min);
+        int currMax = max(root->data, right.max);
+        int currSize = left.sz + right.sz + 1;
+
+        return Info(currMin, currMax, currSize);
     }
 
-    return buildBSTFromSortedArray(temp, 0, temp.size() - 1);
+    return Info(-1000009, 1000009, max(left.sz, right.sz));
+}
+
+int largestBSTinBT(Node *root)
+{
+    Info info = helper(root);
+    return info.sz;
 }
 
 int main()
 {
-    vector<int> arr1 = {8, 2, 1, 10};
-    vector<int> arr2 = {5, 3, 0};
-    Node *root1 = buildBST(arr1);
-    Node *root2 = buildBST(arr2);
+    Node *root = new Node(10);
+    root->left = new Node(5);
+    root->right = new Node(15);
+    root->left->left = new Node(1);
+    root->left->right = new Node(8);
+    root->right->right = new Node(7);
 
-    Node *root = merge2BST(root1, root2);
-    vector<int> seq;
-    inorder(root, seq);
-    for (int v : seq)
-    {
-        cout << v << " ";
-    }
-    cout << endl;
+    cout << largestBSTinBT(root) << endl;
     return 0;
 }
