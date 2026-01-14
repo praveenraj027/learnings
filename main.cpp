@@ -98,40 +98,78 @@ public:
     }
 };
 
-Info helper(Node *root)
+Node *rightMostInLeftSubTree(Node *root)
 {
-    if (root == NULL)
-        return Info(1000009, -1000009, 0);
-    Info left = helper(root->left);
-    Info right = helper(root->right);
-
-    if (root->data > left.max && root->data < right.min)
+    Node *ans;
+    while (root != NULL)
     {
-        int currMin = min(root->data, left.min);
-        int currMax = max(root->data, right.max);
-        int currSize = left.sz + right.sz + 1;
-
-        return Info(currMin, currMax, currSize);
+        ans = root;
+        root = root->right;
     }
-
-    return Info(-1000009, 1000009, max(left.sz, right.sz));
+    return ans;
+}
+Node *leftMostInRightSubTree(Node *root)
+{
+    Node *ans;
+    while (root != NULL)
+    {
+        ans = root;
+        root = root->left;
+    }
+    return ans;
 }
 
-int largestBSTinBT(Node *root)
+vector<int> getPredSucc(Node *root, int key)
 {
-    Info info = helper(root);
-    return info.sz;
+    Node *curr = root;
+    Node *pred = NULL;
+    Node *succ = NULL;
+
+    while (curr != NULL)
+    {
+        if (key < curr->data)
+        {
+            succ = curr;
+            curr = curr->left;
+        }
+        else if (key > curr->data)
+        {
+            pred = curr;
+            curr = curr->right;
+        }
+        else
+        {
+            // Inorder pred
+            if (curr->left != NULL)
+            {
+                pred = rightMostInLeftSubTree(curr->left);
+            }
+            // Inorder succ
+            if (curr->right != NULL)
+            {
+                succ = leftMostInRightSubTree(curr->right);
+            }
+            break;
+        }
+    }
+    return {pred->data, succ->data};
 }
 
 int main()
 {
-    Node *root = new Node(10);
-    root->left = new Node(5);
-    root->right = new Node(15);
+    Node *root = new Node(6);
+    root->left = new Node(4);
+    root->right = new Node(8);
     root->left->left = new Node(1);
-    root->left->right = new Node(8);
-    root->right->right = new Node(7);
+    root->left->right = new Node(5);
+    root->right->right = new Node(9);
+    root->right->left = new Node(7);
+    int key;
+    cout << "Enter your key: ";
+    cin >> key;
+    vector<int> ans = getPredSucc(root, key);
+    cout << "Predecessor: " << ans[0] << endl;
+    cout << "Successor: " << ans[1] << endl;
 
-    cout << largestBSTinBT(root) << endl;
     return 0;
 }
