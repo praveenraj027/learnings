@@ -18,6 +18,16 @@ class Graph{
         l[u].push_back(v);
         l[v].push_back(u);
     }
+
+    void printAdjList(){
+        for (int i = 0; i < V; i++){
+            cout << i << ": ";
+            for (int neigh : l[i]){
+                cout << neigh << " ";
+            }
+            cout << endl;
+        }
+    }
 };
 
 int main()
@@ -28,5 +38,6 @@ int main()
     g.addEdge(1, 3);
     g.addEdge(2, 3);
     g.addEdge(2, 4);
+    g.printAdjList();
     return 0;
 }
