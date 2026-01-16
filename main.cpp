@@ -79,8 +79,13 @@ public:
     {
         int u = 0;
         vector<bool> vis(V, false);
-
-        dfsHelper(u, vis);
+        for (int i = 0; i < V; i++)
+        {
+            if (!vis[i])
+            {
+                dfsHelper(u, vis);
+            }
+        }
         cout << endl;
     }
 };
