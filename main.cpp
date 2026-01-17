@@ -89,21 +89,30 @@ public:
         cout << endl;
     }
 
-    bool isCycleUndirDFS(int src, int par, vector<bool> &vis)
+    bool isCycleUndirBFS(int src, vector<bool> &vis)
     {
+        queue<pair<int, int>> q;
+        q.push({src, -1});
         vis[src] = true;
-        list<int> neighbours = l[src];
 
-        for (int v : neighbours)
+        while (q.size() > 0)
         {
-            if (!vis[v])
+            int u = q.front().first;
+            int parU = q.front().second;
+            q.pop();
+
+            list<int> neighbours = l[u];
+            for (int v : neighbours)
             {
-                if (isCycleUndirDFS(v, src, vis))
+                if (!vis[v])
+                {
+                    q.push({v, u});
+                    vis[v] = true;
+                }
+                else if (v != parU)
+                {
                     return true;
-            }
-            else if (v != par)
-            {
-                return true;
+                }
             }
         }
         return false;
@@ -111,14 +120,16 @@ public:
 
     bool isCycle()
     {
-        int par = -1;
         vector<bool> vis(V, false);
+
         for (int i = 0; i < V; i++)
         {
             if (!vis[i])
             {
-                if (isCycleUndirDFS(i, par, vis))
+                if (isCycleUndirBFS(i, vis))
+                {
                     return true;
+                }
             }
         }
         return false;
