@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <list>
-#include <queue>
+#include <stack>
 using namespace std;
 
 class Graph
@@ -20,7 +20,7 @@ public:
     void addEdge(int u, int v)
     {
         l[u].push_back(v);
-        l[v].push_back(u);
+        // l[v].push_back(u);
     }
 
     void printAdjList()
@@ -36,53 +36,49 @@ public:
         }
     }
 
-    bool isCycleDirDFS(int curr, vector<bool> &vis, vector<bool> &recPath)
+    void dfs(int curr, vector<bool> &vis, stack<int> &s)
     {
         vis[curr] = true;
-        recPath[curr] = true;
         for (int v : l[curr])
         {
             if (!vis[v])
             {
-                if (isCycleDirDFS(v, vis, recPath))
-                {
-                    return true;
-                }
-            }
-            else if (recPath[v])
-            {
-                return true;
+                dfs(v, vis, s);
             }
         }
-        recPath[curr] = false;
-        return false;
+        s.push(curr);
     }
 
-    bool isCycle()
+    void topologicalSort()
     {
         vector<bool> vis(V, false);
-        vector<bool> recPath(V, false);
+        stack<int> s;
         for (int i = 0; i < V; i++)
         {
             if (!vis[i])
             {
-                if (isCycleDirDFS(i, vis, recPath))
-                {
-                    return true;
-                }
+                dfs(i, vis, s);
             }
         }
-        return false;
+
+        while (!s.empty())
+        {
+            cout << s.top() << " ";
+            s.pop();
+        }
+        cout << endl;
     }
 };
 
 int main()
 {
-    Graph g(4);
-    g.addEdge(1, 0);
-    g.addEdge(0, 2);
+    Graph g(6);
+    g.addEdge(3, 1);
     g.addEdge(2, 3);
-    // g.addEdge(3, 0);
-    cout << g.isCycle() << endl;
+    g.addEdge(4, 0);
+    g.addEdge(4, 1);
+    g.addEdge(5, 0);
+    g.addEdge(5, 3);
+    g.topologicalSort();
     return 0;
 }
