@@ -36,97 +36,37 @@ public:
         }
     }
 
-    void bfs()
+    bool isCycleDirDFS(int curr, vector<bool> &vis, vector<bool> &recPath)
     {
-        queue<int> q;
-        vector<bool> vis(V, false);
-        q.push(0);
-        vis[0] = true;
-
-        while (q.size() > 0)
-        {
-            int u = q.front();
-            q.pop();
-            cout << u << " ";
-
-            for (int v : l[u])
-            {
-                if (!vis[v])
-                {
-                    vis[v] = true;
-                    q.push(v);
-                }
-            }
-        }
-        cout << endl;
-    }
-
-    void dfsHelper(int u, vector<bool> &vis)
-    {
-        cout << u << " ";
-        vis[u] = true;
-
-        for (int v : l[u])
+        vis[curr] = true;
+        recPath[curr] = true;
+        for (int v : l[curr])
         {
             if (!vis[v])
             {
-                dfsHelper(v, vis);
-            }
-        }
-    }
-
-    void dfs()
-    {
-        int u = 0;
-        vector<bool> vis(V, false);
-        for (int i = 0; i < V; i++)
-        {
-            if (!vis[i])
-            {
-                dfsHelper(u, vis);
-            }
-        }
-        cout << endl;
-    }
-
-    bool isCycleUndirBFS(int src, vector<bool> &vis)
-    {
-        queue<pair<int, int>> q;
-        q.push({src, -1});
-        vis[src] = true;
-
-        while (q.size() > 0)
-        {
-            int u = q.front().first;
-            int parU = q.front().second;
-            q.pop();
-
-            list<int> neighbours = l[u];
-            for (int v : neighbours)
-            {
-                if (!vis[v])
-                {
-                    q.push({v, u});
-                    vis[v] = true;
-                }
-                else if (v != parU)
+                if (isCycleDirDFS(v, vis, recPath))
                 {
                     return true;
                 }
             }
+            else if (recPath[v])
+            {
+                return true;
+            }
         }
+        recPath[curr] = false;
         return false;
     }
 
     bool isCycle()
     {
         vector<bool> vis(V, false);
-
+        vector<bool> recPath(V, false);
         for (int i = 0; i < V; i++)
         {
             if (!vis[i])
             {
-                if (isCycleUndirBFS(i, vis))
+                if (isCycleDirDFS(i, vis, recPath))
                 {
                     return true;
                 }
@@ -138,12 +78,11 @@ public:
 
 int main()
 {
-    Graph g(5);
-    g.addEdge(0, 1);
+    Graph g(4);
+    g.addEdge(1, 0);
     g.addEdge(0, 2);
-    g.addEdge(0, 3);
-    g.addEdge(1, 2);
-    g.addEdge(3, 4);
+    g.addEdge(2, 3);
+    // g.addEdge(3, 0);
     cout << g.isCycle() << endl;
     return 0;
 }
