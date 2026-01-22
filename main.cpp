@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <list>
-#include <stack>
+#include <queue>
 using namespace std;
 
 class Graph
@@ -36,35 +36,46 @@ public:
         }
     }
 
-    void dfs(int curr, vector<bool> &vis, stack<int> &s)
-    {
-        vis[curr] = true;
-        for (int v : l[curr])
-        {
-            if (!vis[v])
-            {
-                dfs(v, vis, s);
-            }
-        }
-        s.push(curr);
-    }
-
     void topologicalSort()
     {
-        vector<bool> vis(V, false);
-        stack<int> s;
+        vector<int> result;
+        vector<int> indegree(V, 0);
+
+        // Calculate indegree
+        for (int u = 0; u < V; u++)
+        {
+            for (int v : l[u])
+            {
+                indegree[v]++;
+            }
+        }
+        // 0 indegree => queue
+        queue<int> q;
         for (int i = 0; i < V; i++)
         {
-            if (!vis[i])
+            if (indegree[i] == 0)
+                q.push(i);
+        }
+
+        while (!q.empty())
+        {
+            int curr = q.front();
+            q.pop();
+            result.push_back(curr);
+            for (int v : l[curr])
             {
-                dfs(i, vis, s);
+                indegree[v]--;
+                if (indegree[v] == 0)
+                {
+                    q.push(v);
+                }
             }
         }
 
-        while (!s.empty())
+        // Print result
+        for (int val : result)
         {
-            cout << s.top() << " ";
-            s.pop();
+            cout << val << " ";
         }
         cout << endl;
     }
@@ -78,7 +89,7 @@ int main()
     g.addEdge(4, 0);
     g.addEdge(4, 1);
     g.addEdge(5, 0);
-    g.addEdge(5, 3);
+    g.addEdge(5, 2);
     g.topologicalSort();
     return 0;
 }
