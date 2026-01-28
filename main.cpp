@@ -1,76 +1,87 @@
 #include <iostream>
 #include <vector>
-#include <stack>
+#include <climits>
 #include <list>
 #include <unordered_map>
 #include <queue>
 #include <algorithm>
 using namespace std;
 
-void shortestPath(vector<pair<int, int>> edges, int n, int m, int s, int t)
+vector<pair<pair<int, int>, int>> calculatePrimMST(int n, int m, vector<pair<pair<int, int>, int>> &g)
 {
-    unordered_map<int, list<int>> adj;
-    for (int i = 0; i < edges.size(); i++)
-    {
-        int u = edges[i].first;
-        int v = edges[i].second;
+    unordered_map<int, list<pair<int, int>>> adj;
 
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+    for (int i = 0; i < m; i++)
+    {
+        int u = g[i].first.first;
+        int v = g[i].first.second;
+        int w = g[i].second;
+        adj[u].push_back(make_pair(v, w));
+        adj[v].push_back(make_pair(u, w));
     }
 
-    // bfs
-    unordered_map<int, bool> vis;
-    unordered_map<int, int> par;
-    queue<int> q;
-    q.push(s);
-    vis[s] = true;
+    vector<int> key(n, INT_MAX);
+    vector<bool> mst(n, false);
+    vector<int> parent(n, -1);
 
-    while (!q.empty())
+    // Prim's algorithm
+    key[0] = 0;
+    parent[0] = -1;
+
+    for (int i = 0; i < n; i++)
     {
-        int front = q.front();
-        q.pop();
+        int mini = INT_MAX;
+        int u;
 
-        for (auto i : adj[front])
+        // Find min node in key
+        for (int v = 0; v < n; v++)
         {
-            if (!vis[i])
+            if (!mst[v] && key[v] < mini)
             {
-                vis[i] = true;
-                par[i] = front;
-                q.push(i);
+                u = v;
+                mini = key[v];
+            }
+        }
+
+        // Mark mst[u] as true
+        mst[u] = true;
+        // Check its adjacent node
+
+        for (auto it : adj[u])
+        {
+            int v = it.first;
+            int wt = it.second;
+            if (!mst[v] && wt < key[v])
+            {
+                parent[v] = u;
+                key[v] = wt;
             }
         }
     }
-    // prepare shortest path
 
-    vector<int> ans;
-    int curr = t;
-    ans.push_back(t);
-    while (curr != s)
+    vector<pair<pair<int, int>, int>> result;
+    for (int i = 1; i < n; i++)
     {
-        curr = par[curr];
-        ans.push_back(curr);
+        result.push_back({{parent[i], i}, key[i]});
     }
-    reverse(ans.begin(), ans.end());
-    for (int val : ans)
-    {
-        cout << val << " ";
-    }
-    cout << endl;
+    return result;
 }
 
 int main()
 {
-    vector<pair<int, int>> edges = {
-        {1, 2},
-        {2, 3},
-        {3, 4},
-        {1, 4},
-        {4, 5}};
     int n = 5;
     int m = 5;
-    int s = 1;
-    int t = 5;
-    shortestPath(edges, n, m, s, t);
+    vector<pair<pair<int, int>, int>> g = {
+        {{0, 1}, 2},
+        {{1, 2}, 3},
+        {{2, 3}, 4},
+        {{0, 3}, 1},
+        {{3, 4}, 5},
+    };
+    auto mst = calculatePrimMST(n, m, g);
+    for (auto e : mst)
+    {
+        cout << e.first.first << " - " << e.first.second << ": " << e.second << endl;
+    }
     return 0;
 }
