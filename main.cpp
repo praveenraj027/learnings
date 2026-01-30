@@ -7,81 +7,80 @@
 #include <algorithm>
 using namespace std;
 
-vector<pair<pair<int, int>, int>> calculatePrimMST(int n, int m, vector<pair<pair<int, int>, int>> &g)
+bool cmp(vector<int> &a, vector<int> &b)
 {
-    unordered_map<int, list<pair<int, int>>> adj;
+    return a[2] < b[2];
+}
 
-    for (int i = 0; i < m; i++)
-    {
-        int u = g[i].first.first;
-        int v = g[i].first.second;
-        int w = g[i].second;
-        adj[u].push_back(make_pair(v, w));
-        adj[v].push_back(make_pair(u, w));
-    }
-
-    vector<int> key(n, INT_MAX);
-    vector<bool> mst(n, false);
-    vector<int> parent(n, -1);
-
-    // Prim's algorithm
-    key[0] = 0;
-    parent[0] = -1;
-
+void makeSet(vector<int> &parent, vector<int> &rank, int n)
+{
     for (int i = 0; i < n; i++)
     {
-        int mini = INT_MAX;
-        int u;
-
-        // Find min node in key
-        for (int v = 0; v < n; v++)
-        {
-            if (!mst[v] && key[v] < mini)
-            {
-                u = v;
-                mini = key[v];
-            }
-        }
-
-        // Mark mst[u] as true
-        mst[u] = true;
-        // Check its adjacent node
-
-        for (auto it : adj[u])
-        {
-            int v = it.first;
-            int wt = it.second;
-            if (!mst[v] && wt < key[v])
-            {
-                parent[v] = u;
-                key[v] = wt;
-            }
-        }
+        parent[i] = i;
+        rank[i] = 0;
     }
+}
 
-    vector<pair<pair<int, int>, int>> result;
-    for (int i = 1; i < n; i++)
+int findParent(vector<int> &parent, int node)
+{
+    if (parent[node] == node)
     {
-        result.push_back({{parent[i], i}, key[i]});
+        return node;
     }
-    return result;
+    return parent[node] = findParent(parent, parent[node]);
+}
+
+void unionSet(int u, int v, vector<int> &parent, vector<int> &rank)
+{
+    u = findParent(parent, u);
+    v = findParent(parent, v);
+    if (rank[u] < rank[v])
+    {
+        parent[u] = v;
+    }
+    else if (rank[v] < rank[u])
+    {
+        parent[v] = u;
+    }
+    else
+    {
+        parent[v] = u;
+        rank[u]++;
+    }
+}
+
+int minimumSpanningTree(vector<vector<int>> &edges, int n)
+{
+    sort(edges.begin(), edges.end(), cmp);
+    vector<int> parent(n);
+    vector<int> rank(n);
+    makeSet(parent, rank, n);
+
+    int minWeight = 0;
+    for (int i = 0; i < edges.size(); i++)
+    {
+        int u = findParent(parent, edges[i][0]);
+        int v = findParent(parent, edges[i][1]);
+        int wt = edges[i][2];
+
+        if (u != v)
+        {
+            minWeight += wt;
+            unionSet(u, v, parent, rank);
+        }
+    }
+    return minWeight;
 }
 
 int main()
 {
     int n = 5;
-    int m = 5;
-    vector<pair<pair<int, int>, int>> g = {
-        {{0, 1}, 2},
-        {{1, 2}, 3},
-        {{2, 3}, 4},
-        {{0, 3}, 1},
-        {{3, 4}, 5},
-    };
-    auto mst = calculatePrimMST(n, m, g);
-    for (auto e : mst)
-    {
-        cout << e.first.first << " - " << e.first.second << ": " << e.second << endl;
-    }
+    vector<vector<int>> edges = {
+        {0, 1, 2},
+        {0, 3, 6},
+        {1, 2, 3},
+        {1, 3, 8},
+        {1, 4, 5}};
+    cout << minimumSpanningTree(edges, n);
     return 0;
 }
