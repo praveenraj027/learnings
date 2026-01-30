@@ -7,80 +7,77 @@
 #include <algorithm>
 using namespace std;
 
-bool cmp(vector<int> &a, vector<int> &b)
+void dfs(int node, int parent, int &timer, vector<int> &disc, vector<int> &low, vector<vector<int>> &result, unordered_map<int, list<int>> &adj, unordered_map<int, bool> &vis)
 {
-    return a[2] < b[2];
-}
-
-void makeSet(vector<int> &parent, vector<int> &rank, int n)
-{
-    for (int i = 0; i < n; i++)
+    vis[node] = true;
+    disc[node] = low[node] = timer++;
+    for (auto neighbour : adj[node])
     {
-        parent[i] = i;
-        rank[i] = 0;
-    }
-}
-
-int findParent(vector<int> &parent, int node)
-{
-    if (parent[node] == node)
-    {
-        return node;
-    }
-    return parent[node] = findParent(parent, parent[node]);
-}
-
-void unionSet(int u, int v, vector<int> &parent, vector<int> &rank)
-{
-    u = findParent(parent, u);
-    v = findParent(parent, v);
-    if (rank[u] < rank[v])
-    {
-        parent[u] = v;
-    }
-    else if (rank[v] < rank[u])
-    {
-        parent[v] = u;
-    }
-    else
-    {
-        parent[v] = u;
-        rank[u]++;
-    }
-}
-
-int minimumSpanningTree(vector<vector<int>> &edges, int n)
-{
-    sort(edges.begin(), edges.end(), cmp);
-    vector<int> parent(n);
-    vector<int> rank(n);
-    makeSet(parent, rank, n);
-
-    int minWeight = 0;
-    for (int i = 0; i < edges.size(); i++)
-    {
-        int u = findParent(parent, edges[i][0]);
-        int v = findParent(parent, edges[i][1]);
-        int wt = edges[i][2];
-
-        if (u != v)
+        if (neighbour == parent)
+            continue;
+        if (!vis[neighbour])
         {
-            minWeight += wt;
-            unionSet(u, v, parent, rank);
+            dfs(neighbour, node, timer, disc, low, result, adj, vis);
+            low[node] = min(low[node], low[neighbour]);
+
+            if (low[neighbour] > disc[node])
+            {
+                vector<int> ans;
+                ans.push_back(node);
+                ans.push_back(neighbour);
+                result.push_back(ans);
+            }
+        }
+        else
+        {
+            low[node] = min(low[node], disc[neighbour]);
         }
     }
-    return minWeight;
+}
+
+vector<vector<int>> findBridges(vector<vector<int>> &edges, int v, int e)
+{
+    unordered_map<int, list<int>> adj;
+    for (int i = 0; i < edges.size(); i++)
+    {
+        int u = edges[i][0];
+        int v = edges[i][1];
+
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    int timer = 0;
+    vector<int> disc(v, -1);
+    vector<int> low(v, -1);
+    int parent = -1;
+    unordered_map<int, bool> vis;
+
+    vector<vector<int>> result;
+    // dfs
+
+    for (int i = 0; i < v; i++)
+    {
+        if (!vis[i])
+        {
+            dfs(i, parent, timer, disc, low, result, adj, vis);
+        }
+    }
+    return result;
 }
 
 int main()
 {
-    int n = 5;
     vector<vector<int>> edges = {
-        {0, 1, 2},
-        {0, 3, 6},
-        {1, 2, 3},
-        {1, 3, 8},
-        {1, 4, 5}};
-    cout << minimumSpanningTree(edges, n);
+        {0, 1},
+        {0, 3},
+        {1, 2},
+        {1, 3},
+        {1, 4}};
+    auto bridges = findBridges(edges, 5, 5);
+    for (auto &b : bridges)
+    {
+        cout << b[0] << " -> " << b[1] << endl;
+    }
     return 0;
 }
