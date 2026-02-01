@@ -4,81 +4,95 @@
 #include <list>
 #include <unordered_map>
 #include <queue>
+#include <stack>
 #include <algorithm>
 using namespace std;
 
-void dfs(int node, int parent, vector<int> &disc, vector<int> &low, unordered_map<int, bool> &vis, unordered_map<int, list<int>> &adj, vector<int> &ap, int &timer)
+void dfs(int node, unordered_map<int, bool> &vis, stack<int> &st, unordered_map<int, list<int>> &adj)
 {
     vis[node] = true;
-    disc[node] = low[node] = timer++;
-    int child = 0;
     for (auto nbr : adj[node])
     {
-        if (nbr == parent)
-            continue;
         if (!vis[nbr])
         {
-            dfs(nbr, node, disc, low, vis, adj, ap, timer);
-            low[node] = min(low[node], low[nbr]);
-
-            if (low[nbr] >= disc[node] && parent != -1)
-            {
-                ap[node] = true;
-            }
-            child++;
+            dfs(nbr, vis, st, adj);
         }
-        else
+    }
+    st.push(node);
+}
+
+void revDfs(int node, unordered_map<int, bool> &vis, unordered_map<int, list<int>> &transpose)
+{
+    vis[node] = true;
+
+    for (auto nbr : transpose[node])
+    {
+        if (!vis[nbr])
         {
-            low[node] = min(low[node], disc[nbr]);
+            revDfs(nbr, vis, transpose);
+        }
+    }
+}
+
+int stronglyConnectedComponents(int v, vector<vector<int>> &edges)
+{
+    unordered_map<int, list<int>> adj;
+    for (int i = 0; i < edges.size(); i++)
+    {
+        int u = edges[i][0];
+        int to = edges[i][1];
+
+        adj[u].push_back(to);
+    }
+
+    // Topological sort
+    stack<int> s;
+    unordered_map<int, bool> vis;
+    for (int i = 0; i < v; i++)
+    {
+        if (!vis[i])
+        {
+            dfs(i, vis, s, adj);
         }
     }
 
-    if(parent == -1 && child > 1){
-        ap[node] = 1;
+    // Create a transpose graph
+    unordered_map<int, list<int>> transpose;
+    for (int i = 0; i < v; i++)
+    {
+        vis[i] = false;
+        for (auto nbr : adj[i])
+        {
+            transpose[nbr].push_back(i);
+        }
     }
+
+    // dfs for above ordering
+    int count = 0;
+    while (!s.empty())
+    {
+        int top = s.top();
+        s.pop();
+        if (!vis[top])
+        {
+            count++;
+            revDfs(top, vis, transpose);
+        }
+    }
+    return count;
 }
 
 int main()
 {
     int n = 5;
-    int e = 5;
-    vector<pair<int, int>> edges;
-    edges.push_back({0, 3});
-    edges.push_back({3, 4});
-    edges.push_back({0, 4});
-    edges.push_back({0, 1});
-    edges.push_back({1, 2});
-    unordered_map<int, list<int>> adj;
-    for (int i = 0; i < edges.size(); i++)
-    {
-        int u = edges[i].first;
-        int v = edges[i].second;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
-    }
+    vector<vector<int>> edges = {
+        {0, 2},
+        {2, 1},
+        {1, 0},
+        {2, 3},
+        {3, 4},
+    };
 
-    int timer = 0;
-    vector<int> disc(n, -1);
-    vector<int> low(n, -1);
-    unordered_map<int, bool> vis;
-    vector<int> ap(n, 0);
-
-    for (int i = 0; i < n; i++)
-    {
-        if (!vis[i])
-        {
-            dfs(i, -1, disc, low, vis, adj, ap, timer);
-        }
-    }
-
-    cout << "Articulation points are as follows: " << endl;
-    for (int i = 0; i < n; i++)
-    {
-        if (ap[i] != 0)
-        {
-            cout << i << " ";
-        }
-    }
-    cout << endl;
+    cout << stronglyConnectedComponents(n, edges);
     return 0;
 }
