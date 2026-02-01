@@ -7,77 +7,78 @@
 #include <algorithm>
 using namespace std;
 
-void dfs(int node, int parent, int &timer, vector<int> &disc, vector<int> &low, vector<vector<int>> &result, unordered_map<int, list<int>> &adj, unordered_map<int, bool> &vis)
+void dfs(int node, int parent, vector<int> &disc, vector<int> &low, unordered_map<int, bool> &vis, unordered_map<int, list<int>> &adj, vector<int> &ap, int &timer)
 {
     vis[node] = true;
     disc[node] = low[node] = timer++;
-    for (auto neighbour : adj[node])
+    int child = 0;
+    for (auto nbr : adj[node])
     {
-        if (neighbour == parent)
+        if (nbr == parent)
             continue;
-        if (!vis[neighbour])
+        if (!vis[nbr])
         {
-            dfs(neighbour, node, timer, disc, low, result, adj, vis);
-            low[node] = min(low[node], low[neighbour]);
+            dfs(nbr, node, disc, low, vis, adj, ap, timer);
+            low[node] = min(low[node], low[nbr]);
 
-            if (low[neighbour] > disc[node])
+            if (low[nbr] >= disc[node] && parent != -1)
             {
-                vector<int> ans;
-                ans.push_back(node);
-                ans.push_back(neighbour);
-                result.push_back(ans);
+                ap[node] = true;
             }
+            child++;
         }
         else
         {
-            low[node] = min(low[node], disc[neighbour]);
+            low[node] = min(low[node], disc[nbr]);
         }
+    }
+
+    if(parent == -1 && child > 1){
+        ap[node] = 1;
     }
 }
 
-vector<vector<int>> findBridges(vector<vector<int>> &edges, int v, int e)
+int main()
 {
+    int n = 5;
+    int e = 5;
+    vector<pair<int, int>> edges;
+    edges.push_back({0, 3});
+    edges.push_back({3, 4});
+    edges.push_back({0, 4});
+    edges.push_back({0, 1});
+    edges.push_back({1, 2});
     unordered_map<int, list<int>> adj;
     for (int i = 0; i < edges.size(); i++)
     {
-        int u = edges[i][0];
-        int v = edges[i][1];
-
+        int u = edges[i].first;
+        int v = edges[i].second;
         adj[u].push_back(v);
         adj[v].push_back(u);
     }
 
     int timer = 0;
-    vector<int> disc(v, -1);
-    vector<int> low(v, -1);
-    int parent = -1;
+    vector<int> disc(n, -1);
+    vector<int> low(n, -1);
     unordered_map<int, bool> vis;
+    vector<int> ap(n, 0);
 
-    vector<vector<int>> result;
-    // dfs
-
-    for (int i = 0; i < v; i++)
+    for (int i = 0; i < n; i++)
     {
         if (!vis[i])
         {
-            dfs(i, parent, timer, disc, low, result, adj, vis);
+            dfs(i, -1, disc, low, vis, adj, ap, timer);
         }
     }
-    return result;
-}
 
-int main()
-{
-    vector<vector<int>> edges = {
-        {0, 1},
-        {0, 3},
-        {1, 2},
-        {1, 3},
-        {1, 4}};
-    auto bridges = findBridges(edges, 5, 5);
-    for (auto &b : bridges)
+    cout << "Articulation points are as follows: " << endl;
+    for (int i = 0; i < n; i++)
     {
-        cout << b[0] << " -> " << b[1] << endl;
+        if (ap[i] != 0)
+        {
+            cout << i << " ";
+        }
     }
+    cout << endl;
     return 0;
 }
