@@ -48,6 +48,36 @@ public:
         cout << endl;
     }
 
+    void deleteFromHeap()
+    {
+        if (size == 0)
+        {
+            cout << "Nothing to delete.." << endl;
+            return;
+        }
+        arr[1] = arr[size];
+        size--;
+
+        int i = 1;
+        while (i < size)
+        {
+            int leftIdx = 2 * i;
+            int rightIdx = 2 * i + 1;
+
+            if (leftIdx < size && arr[i] < arr[leftIdx])
+            {
+                swap(arr[i], arr[leftIdx]);
+            }
+            else if (rightIdx < size && arr[i] < arr[rightIdx])
+            {
+                swap(arr[i], arr[rightIdx]);
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
 };
 
 int main()
