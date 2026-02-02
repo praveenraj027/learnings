@@ -140,5 +140,12 @@ int main()
         cout << arr[i] << " ";
     }
     cout << endl;
+    // Max-heap
+    priority_queue<int> maxheap;
+    maxheap.push(5);
+    maxheap.push(6);
+    maxheap.push(3);
+    cout << maxheap.top();
+
     return 0;
 }
