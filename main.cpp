@@ -8,91 +8,57 @@
 #include <algorithm>
 using namespace std;
 
-void dfs(int node, unordered_map<int, bool> &vis, stack<int> &st, unordered_map<int, list<int>> &adj)
+class Heap
 {
-    vis[node] = true;
-    for (auto nbr : adj[node])
+public:
+    int arr[100];
+    int size;
+    Heap()
     {
-        if (!vis[nbr])
-        {
-            dfs(nbr, vis, st, adj);
-        }
+        arr[0] = -1;
+        size = 0;
     }
-    st.push(node);
-}
-
-void revDfs(int node, unordered_map<int, bool> &vis, unordered_map<int, list<int>> &transpose)
-{
-    vis[node] = true;
-
-    for (auto nbr : transpose[node])
+    void insert(int val)
     {
-        if (!vis[nbr])
+        size = size + 1;
+        int index = size;
+        arr[index] = val;
+
+        while (index > 1)
         {
-            revDfs(nbr, vis, transpose);
-        }
-    }
-}
-
-int stronglyConnectedComponents(int v, vector<vector<int>> &edges)
-{
-    unordered_map<int, list<int>> adj;
-    for (int i = 0; i < edges.size(); i++)
-    {
-        int u = edges[i][0];
-        int to = edges[i][1];
-
-        adj[u].push_back(to);
-    }
-
-    // Topological sort
-    stack<int> s;
-    unordered_map<int, bool> vis;
-    for (int i = 0; i < v; i++)
-    {
-        if (!vis[i])
-        {
-            dfs(i, vis, s, adj);
+            int parent = index / 2;
+            if (arr[parent] < arr[index])
+            {
+                swap(arr[parent], arr[index]);
+                index = parent;
+            }
+            else
+            {
+                return;
+            }
         }
     }
 
-    // Create a transpose graph
-    unordered_map<int, list<int>> transpose;
-    for (int i = 0; i < v; i++)
+    void print()
     {
-        vis[i] = false;
-        for (auto nbr : adj[i])
+        for (int i = 1; i <= size; i++)
         {
-            transpose[nbr].push_back(i);
+            cout << arr[i] << " ";
         }
+        cout << endl;
     }
 
-    // dfs for above ordering
-    int count = 0;
-    while (!s.empty())
-    {
-        int top = s.top();
-        s.pop();
-        if (!vis[top])
-        {
-            count++;
-            revDfs(top, vis, transpose);
-        }
-    }
-    return count;
-}
+};
 
 int main()
 {
-    int n = 5;
-    vector<vector<int>> edges = {
-        {0, 2},
-        {2, 1},
-        {1, 0},
-        {2, 3},
-        {3, 4},
-    };
-
-    cout << stronglyConnectedComponents(n, edges);
+    Heap h;
+    h.insert(50);
+    h.insert(55);
+    h.insert(52);
+    h.insert(40);
+    h.print();
+    h.deleteFromHeap();
+    h.print();
     return 0;
 }
