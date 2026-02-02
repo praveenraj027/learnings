@@ -145,7 +145,12 @@ int main()
     maxheap.push(5);
     maxheap.push(6);
     maxheap.push(3);
-    cout << maxheap.top();
-
+    cout << maxheap.top() << endl;
+    // Min heap
+    priority_queue<int, vector<int>, greater<int>> minheap;
+    minheap.push(5);
+    minheap.push(6);
+    minheap.push(3);
+    cout << minheap.top() << endl;
     return 0;
 }
