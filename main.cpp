@@ -58,6 +58,29 @@ public:
     {
         insertUtil(root, word);
     }
+
+    bool searchUtil(TrieNode *root, string word)
+    {
+        if (word.length() == 0)
+            return root->isTerminal;
+        
+        int index = word[0] - 'A';
+        TrieNode* child;
+        
+        if (root->children[index] != NULL){
+            child = root->children[index];
+        } else {
+            return false;
+        }
+
+        //Recursion
+        return searchUtil(child, word.substr(1));
+    }
+
+    bool searchWord(string word)
+    {
+        return searchUtil(root, word);
+    }
 };
 
 int main()
@@ -67,6 +90,6 @@ int main()
     t->insertWord("ROMEO");
     t->insertWord("PRAVEEN");
 
-    // cout << t->searchWord("PIYU") << endl;
+    cout << t->searchWord("PIYU") << endl;
     return 0;
 }
