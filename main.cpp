@@ -3,26 +3,70 @@
 #include <unordered_map>
 using namespace std;
 
+class TrieNode
+{
+public:
+    char data;
+    TrieNode *children[26];
+    bool isTerminal;
+
+    TrieNode(char ch)
+    {
+        data = ch;
+        for (int i = 0; i < 26; i++)
+        {
+            children[i] = NULL;
+        }
+        isTerminal = true;
+    }
+};
+
+class Trie
+{
+public:
+    TrieNode *root;
+    Trie()
+    {
+        root = new TrieNode('\0');
+    }
+
+    void insertUtil(TrieNode *root, string word)
+    {
+        if (word.length() == 0)
+        {
+            root->isTerminal = true;
+            return;
+        }
+
+        int index = word[0] - 'A';
+        TrieNode *child;
+
+        if (root->children[index] != NULL)
+        {
+            child = root->children[index];
+        }
+        else
+        {
+            child = new TrieNode(word[0]);
+            root->children[index] = child;
+        }
+
+        insertUtil(child, word.substr(1));
+    }
+
+    void insertWord(string word)
+    {
+        insertUtil(root, word);
+    }
+};
+
 int main()
 {
-    unordered_map<string, int> m;
-    pair<string, int> pair2("praveen", 12);
-    m.insert(pair2);
-    pair<string, int> p = make_pair("piyu", 100);
-    m.insert(p);
+    Trie *t = new Trie();
+    t->insertWord("PIYU");
+    t->insertWord("ROMEO");
+    t->insertWord("PRAVEEN");
 
-    m["romeo"] = 23;
-
-    // printing map elements using for each loop
-    for (auto i : m){
-        cout << i.first << " -> " << i.second << endl;
-    }
-
-    //printing map elements using iterator
-    unordered_map<string, int> :: iterator it = m.begin();
-    while (it != m.end()){
-        cout << it->first << " -> " << it->second << endl;
-        it++;
-    }
+    // cout << t->searchWord("PIYU") << endl;
     return 0;
 }
