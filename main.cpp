@@ -1,95 +1,22 @@
 #include <iostream>
 #include <map>
-#include <unordered_map>
+#include <vector>
 using namespace std;
 
-class TrieNode
+int fibonacci(int n, vector<int> &dp)
 {
-public:
-    char data;
-    TrieNode *children[26];
-    bool isTerminal;
-
-    TrieNode(char ch)
-    {
-        data = ch;
-        for (int i = 0; i < 26; i++)
-        {
-            children[i] = NULL;
-        }
-        isTerminal = true;
-    }
-};
-
-class Trie
-{
-public:
-    TrieNode *root;
-    Trie()
-    {
-        root = new TrieNode('\0');
-    }
-
-    void insertUtil(TrieNode *root, string word)
-    {
-        if (word.length() == 0)
-        {
-            root->isTerminal = true;
-            return;
-        }
-
-        int index = word[0] - 'A';
-        TrieNode *child;
-
-        if (root->children[index] != NULL)
-        {
-            child = root->children[index];
-        }
-        else
-        {
-            child = new TrieNode(word[0]);
-            root->children[index] = child;
-        }
-
-        insertUtil(child, word.substr(1));
-    }
-
-    void insertWord(string word)
-    {
-        insertUtil(root, word);
-    }
-
-    bool searchUtil(TrieNode *root, string word)
-    {
-        if (word.length() == 0)
-            return root->isTerminal;
-        
-        int index = word[0] - 'A';
-        TrieNode* child;
-        
-        if (root->children[index] != NULL){
-            child = root->children[index];
-        } else {
-            return false;
-        }
-
-        //Recursion
-        return searchUtil(child, word.substr(1));
-    }
-
-    bool searchWord(string word)
-    {
-        return searchUtil(root, word);
-    }
-};
+    if (n <= 1)
+        return n;
+    if (dp[n] != -1)
+        return dp[n];
+    dp[n] = fibonacci(n - 1, dp) + fibonacci(n - 2, dp );
+    return dp[n];
+}
 
 int main()
 {
-    Trie *t = new Trie();
-    t->insertWord("PIYU");
-    t->insertWord("ROMEO");
-    t->insertWord("PRAVEEN");
-
-    cout << t->searchWord("PIYU") << endl;
+    int n = 5;
+    vector<int> dp(n + 1, -1);
+    cout << fibonacci(n, dp) << endl;
     return 0;
 }
